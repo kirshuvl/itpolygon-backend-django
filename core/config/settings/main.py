@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "core.apps.users.apps.UsersConfig",
     "core.apps.courses.apps.CoursesConfig",
     "core.apps.steps.apps.StepsConfig",
+    "core.apps.groups.apps.GroupsConfig",
 ]
 
 
