@@ -175,3 +175,32 @@ class LessonStepConnection(TimedBaseModel):
             "lesson",
             "step",
         )
+
+
+class UserCourseEnroll(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_course_enrolls",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    course = models.ForeignKey(
+        Course,
+        related_name="user_course_enrolls",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Курс -> Студент"
+        verbose_name_plural = "5. Курсы -> Студенты"
+        ordering = ("pk",)
+        unique_together = (
+            "user",
+            "course",
+        )
+        db_table = "user_course_enrolls"
+
+    def __str__(self) -> str:
+        return f"{self.course} -> {self.user}"

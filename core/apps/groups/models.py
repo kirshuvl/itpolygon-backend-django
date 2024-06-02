@@ -1,7 +1,6 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
-from core.apps.courses.models import Course
 from core.apps.users.models import CustomUser
 
 
@@ -48,35 +47,6 @@ class StudentGroupEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.student} -> {self.group}"
-
-
-class CourseGroupConnection(TimedBaseModel):
-    course = models.ForeignKey(
-        Course,
-        related_name="course_group_connections",
-        verbose_name="Курс",
-        on_delete=models.CASCADE,
-    )
-
-    group = models.ForeignKey(
-        Group,
-        related_name="course_group_connections",
-        verbose_name="Группа",
-        on_delete=models.CASCADE,
-    )
-
-    class Meta:
-        verbose_name = "Группа -> Курс"
-        verbose_name_plural = "4. Группы -> Курсы"
-        ordering = ("pk",)
-        unique_together = (
-            "group",
-            "course",
-        )
-        db_table = "course_group_connections"
-
-    def __str__(self) -> str:
-        return f"{self.course} -> {self.group}"
 
 
 class TeacherGroupEnroll(TimedBaseModel):

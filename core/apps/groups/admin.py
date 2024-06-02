@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-from core.apps.groups.models import (
-    CourseGroupConnection,
-    Group,
-    StudentGroupEnroll,
-    TeacherGroupEnroll,
-)
+from core.apps.groups.models import Group, StudentGroupEnroll, TeacherGroupEnroll
 
 
 @admin.register(Group)
@@ -54,34 +49,6 @@ class StudentGroupEnrollAdmin(admin.ModelAdmin):
     list_filter = (
         "group",
         "student",
-    )
-    ordering = ("id",)
-
-
-@admin.register(CourseGroupConnection)
-class CourseGroupConnectionAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "group",
-        "course",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = (
-        "id",
-        "group",
-        "course",
-    )
-    search_fields = (
-        "id",
-        "group",
-        "course",
-        "created_at",
-        "updated_at",
-    )
-    list_filter = (
-        "group",
-        "course",
     )
     ordering = ("id",)
 
