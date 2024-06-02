@@ -1,7 +1,6 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
-from core.apps.users.models import CustomUser
 
 
 class Seminar(TimedBaseModel):
@@ -18,32 +17,3 @@ class Seminar(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"Дата: {self.date}"
-
-
-class UserSeminarEnroll(TimedBaseModel):
-    user = models.ForeignKey(
-        CustomUser,
-        related_name="user_seminar_enrolls",
-        verbose_name="Пользователь",
-        on_delete=models.CASCADE,
-    )
-
-    seminar = models.ForeignKey(
-        Seminar,
-        related_name="user_seminar_enrolls",
-        verbose_name="Курс",
-        on_delete=models.CASCADE,
-    )
-
-    class Meta:
-        verbose_name = "Семинар -> Студент"
-        verbose_name_plural = "2. Семинары -> Студенты"
-        ordering = ("pk",)
-        unique_together = (
-            "user",
-            "seminar",
-        )
-        db_table = "user_seminar_enrolls"
-
-    def __str__(self) -> str:
-        return f"{self.seminar} -> {self.user}"

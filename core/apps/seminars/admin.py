@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.seminars.models import Seminar, UserSeminarEnroll
+from core.apps.seminars.models import Seminar
 
 
 @admin.register(Seminar)
@@ -22,32 +22,4 @@ class SeminarAdmin(admin.ModelAdmin):
         "updated_at",
     )
     list_filter = ("date",)
-    ordering = ("id",)
-
-
-@admin.register(UserSeminarEnroll)
-class UserSeminarEnrollAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "user",
-        "seminar",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = (
-        "id",
-        "user",
-        "seminar",
-    )
-    search_fields = (
-        "id",
-        "user",
-        "seminar",
-        "created_at",
-        "updated_at",
-    )
-    list_filter = (
-        "user",
-        "seminar",
-    )
     ordering = ("id",)
