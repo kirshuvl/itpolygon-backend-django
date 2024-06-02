@@ -20,7 +20,6 @@ class UserStepEnrollSerializer(ModelSerializer):
         fields = (
             "id",
             "status",
-            "user",
         )
 
 

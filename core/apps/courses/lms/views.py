@@ -35,6 +35,7 @@ class CourseMixinAPIView:
                         "step__questionstep",
                         "step__problemstep",
                     )
+                    .filter(is_published=True)
                     .order_by("number"),
                 ),
             )
