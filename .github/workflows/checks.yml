@@ -1,0 +1,32 @@
+name: Backend Docker
+
+on:
+  push:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build Docker Container
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set Up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.11
+
+    - name: Make Application in Docker
+      run: make app
+
+    - name: Run Test
+      run: make test
+
+    - name: Show Pip List
+      run: make piplist
+
+    - name: Check Docker Container
+      run: make check

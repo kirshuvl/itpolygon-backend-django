@@ -1,0 +1,13 @@
+services:
+  database:
+    image: postgres:latest
+    container_name: database
+    env_file:
+      - ../.env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
