@@ -83,6 +83,30 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-cors-headers"
+version = "4.3.1"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+asgiref = ">=3.6"
+Django = ">=3.2"
+
+[[package]]
+name = "django-debug-toolbar"
+version = "4.4.2"
+description = "A configurable set of panels that display various debug information about the current request/response."
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+django = ">=4.2.9"
+sqlparse = ">=0.2"
+
+[[package]]
 name = "djangorestframework"
 version = "3.15.1"
 description = "Web APIs for Django, made easy."
@@ -308,7 +332,7 @@ test = ["covdefaults (>=2.3)", "coverage-enable-subprocess (>=1)", "coverage (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "c6bfa18711fcbf2e1ac0d5b5286a6abb4c96ddc818acdcfb41f0124120693189"
+content-hash = "c6dd6c231f7a28589ddde3944e51c7ef2ecbea32c25f38cea13f47a4ca8aef8e"
 
 [metadata.files]
 asgiref = []
@@ -318,6 +342,8 @@ click = []
 colorama = []
 distlib = []
 django = []
+django-cors-headers = []
+django-debug-toolbar = []
 djangorestframework = []
 filelock = []
 flake8 = []
