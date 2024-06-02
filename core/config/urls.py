@@ -3,6 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 urlpatterns = [
     path(
         "admin/",
@@ -11,6 +13,20 @@ urlpatterns = [
     path(
         "__debug__/",
         include("debug_toolbar.urls"),
+    ),
+    path(
+        "",
+        include("core.api.urls"),
+    ),
+    path(
+        "schema/",
+        SpectacularAPIView.as_view(),
+        name="schema",
+    ),
+    path(
+        "schema/swagger/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger",
     ),
 ]
 

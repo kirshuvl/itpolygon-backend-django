@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "debug_toolbar",
+    "drf_spectacular",
     # first party
     "core.apps.common.apps.CommonConfig",
     "core.apps.users.apps.UsersConfig",

@@ -26,7 +26,6 @@ SPECTACULAR_SETTINGS = {
     "SORT_TAGS": True,
     "TAGS": [
         {"name": "LMS", "description": "Learning Managment System Endpoints"},
-        {"name": "CMS", "description": "Content Managment System Endpoints"},
         {"name": "AUTH", "description": "Authentication Endpoints"},
     ],
 }

@@ -10,6 +10,22 @@ python-versions = ">=3.8"
 tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
+name = "attrs"
+version = "23.2.0"
+description = "Classes Without Boilerplate"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+cov = ["attrs", "coverage[toml] (>=5.3)"]
+dev = ["attrs", "pre-commit"]
+docs = ["furo", "myst-parser", "sphinx", "sphinx-notfound-page", "sphinxcontrib-towncrier", "towncrier", "zope-interface"]
+tests = ["attrs", "zope-interface"]
+tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
+tests-no-zope = ["attrs", "cloudpickle", "hypothesis", "pympler", "pytest-xdist", "pytest (>=4.3.0)"]
+
+[[package]]
 name = "black"
 version = "24.4.2"
 description = "The uncompromising code formatter."
@@ -118,6 +134,47 @@ python-versions = ">=3.6"
 django = ">=3.0"
 
 [[package]]
+name = "djangorestframework-simplejwt"
+version = "5.3.1"
+description = "A minimal JSON Web Token authentication plugin for Django REST Framework"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+django = ">=3.2"
+djangorestframework = ">=3.12"
+pyjwt = ">=1.7.1,<3"
+
+[package.extras]
+test = ["cryptography", "freezegun", "pytest-cov", "pytest-django", "pytest-xdist", "pytest", "tox"]
+lint = ["flake8", "pep8", "isort"]
+doc = ["Sphinx (>=1.6.5,<2)", "sphinx_rtd_theme (>=0.1.9)"]
+dev = ["pytest-watch", "wheel", "twine", "ipython", "cryptography", "freezegun", "pytest-cov", "pytest-django", "pytest-xdist", "pytest", "tox", "flake8", "pep8", "isort", "Sphinx (>=1.6.5,<2)", "sphinx_rtd_theme (>=0.1.9)", "python-jose (==3.3.0)"]
+python-jose = ["python-jose (==3.3.0)"]
+crypto = ["cryptography (>=3.3.1)"]
+
+[[package]]
+name = "drf-spectacular"
+version = "0.27.2"
+description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Django = ">=2.2"
+djangorestframework = ">=3.10.3"
+inflection = ">=0.3.1"
+jsonschema = ">=2.6.0"
+PyYAML = ">=5.1"
+uritemplate = ">=2.0.0"
+
+[package.extras]
+offline = ["drf-spectacular-sidecar"]
+sidecar = ["drf-spectacular-sidecar"]
+
+[[package]]
 name = "filelock"
 version = "3.14.0"
 description = "A platform independent file lock."
@@ -155,6 +212,14 @@ python-versions = ">=3.8"
 license = ["ukkonen"]
 
 [[package]]
+name = "inflection"
+version = "0.5.1"
+description = "A port of Ruby on Rails inflector to Python"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
 name = "isort"
 version = "5.13.2"
 description = "A Python utility / library to sort Python imports."
@@ -164,6 +229,35 @@ python-versions = ">=3.8.0"
 
 [package.extras]
 colors = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "jsonschema"
+version = "4.22.0"
+description = "An implementation of JSON Schema validation for Python"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+attrs = ">=22.2.0"
+jsonschema-specifications = ">=2023.03.6"
+referencing = ">=0.28.4"
+rpds-py = ">=0.7.1"
+
+[package.extras]
+format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
+format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "uri-template", "webcolors (>=1.11)"]
+
+[[package]]
+name = "jsonschema-specifications"
+version = "2023.12.1"
+description = "The JSON Schema meta-schemas and vocabularies, exposed as a Registry"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+referencing = ">=0.31.0"
 
 [[package]]
 name = "mccabe"
@@ -274,6 +368,20 @@ optional = false
 python-versions = ">=3.8"
 
 [[package]]
+name = "pyjwt"
+version = "2.8.0"
+description = "JSON Web Token implementation in Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+crypto = ["cryptography (>=3.4.0)"]
+dev = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface", "cryptography (>=3.4.0)", "pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)", "pre-commit"]
+docs = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+tests = ["pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)"]
+
+[[package]]
 name = "pyproject-flake8"
 version = "7.0.0"
 description = "pyproject-flake8 (`pflake8`), a monkey patching wrapper to connect flake8 with pyproject.toml configuration"
@@ -288,9 +396,29 @@ flake8 = "7.0.0"
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
+
+[[package]]
+name = "referencing"
+version = "0.35.1"
+description = "JSON Referencing + Python"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+attrs = ">=22.2.0"
+rpds-py = ">=0.7.0"
+
+[[package]]
+name = "rpds-py"
+version = "0.18.1"
+description = "Python bindings to Rust's persistent data structures (rpds)"
+category = "main"
+optional = false
+python-versions = ">=3.8"
 
 [[package]]
 name = "sqlparse"
@@ -313,6 +441,14 @@ optional = false
 python-versions = ">=2"
 
 [[package]]
+name = "uritemplate"
+version = "4.1.1"
+description = "Implementation of RFC 6570 URI Templates"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "virtualenv"
 version = "20.26.2"
 description = "Virtual Python Environment builder"
@@ -332,10 +468,11 @@ test = ["covdefaults (>=2.3)", "coverage-enable-subprocess (>=1)", "coverage (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "c6dd6c231f7a28589ddde3944e51c7ef2ecbea32c25f38cea13f47a4ca8aef8e"
+content-hash = "389d9980d09b125104a43030a9e6d9efeb036aece4ea85f6f61265e691a31b53"
 
 [metadata.files]
 asgiref = []
+attrs = []
 black = []
 cfgv = []
 click = []
@@ -345,10 +482,15 @@ django = []
 django-cors-headers = []
 django-debug-toolbar = []
 djangorestframework = []
+djangorestframework-simplejwt = []
+drf-spectacular = []
 filelock = []
 flake8 = []
 identify = []
+inflection = []
 isort = []
+jsonschema = []
+jsonschema-specifications = []
 mccabe = []
 mypy-extensions = []
 nodeenv = []
@@ -360,8 +502,12 @@ pre-commit = []
 psycopg2-binary = []
 pycodestyle = []
 pyflakes = []
+pyjwt = []
 pyproject-flake8 = []
 pyyaml = []
+referencing = []
+rpds-py = []
 sqlparse = []
 tzdata = []
+uritemplate = []
 virtualenv = []
