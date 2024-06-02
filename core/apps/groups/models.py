@@ -51,35 +51,6 @@ class StudentGroupEnroll(TimedBaseModel):
         return f"{self.student} -> {self.group}"
 
 
-class CourseGroupConnection(TimedBaseModel):
-    group = models.ForeignKey(
-        Group,
-        related_name="course_group_connections",
-        verbose_name="Группа",
-        on_delete=models.CASCADE,
-    )
-
-    course = models.ForeignKey(
-        Course,
-        related_name="course_group_connections",
-        verbose_name="Курс",
-        on_delete=models.CASCADE,
-    )
-
-    class Meta:
-        verbose_name = "Группа -> Курс"
-        verbose_name_plural = "4. Группы -> Курсы"
-        ordering = ("pk",)
-        unique_together = (
-            "group",
-            "course",
-        )
-        db_table = "course_group_connections"
-
-    def __str__(self) -> str:
-        return f"{self.course} -> {self.group}"
-
-
 class TeacherGroupEnroll(TimedBaseModel):
     teacher = models.ForeignKey(
         CustomUser,
@@ -109,6 +80,35 @@ class TeacherGroupEnroll(TimedBaseModel):
         return f"{self.teacher} -> {self.group}"
 
 
+class CourseGroupConnection(TimedBaseModel):
+    group = models.ForeignKey(
+        Group,
+        related_name="course_group_connections",
+        verbose_name="Группа",
+        on_delete=models.CASCADE,
+    )
+
+    course = models.ForeignKey(
+        Course,
+        related_name="course_group_connections",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Группа -> Курс"
+        verbose_name_plural = "4. Группы -> Курсы"
+        ordering = ("pk",)
+        unique_together = (
+            "group",
+            "course",
+        )
+        db_table = "course_group_connections"
+
+    def __str__(self) -> str:
+        return f"{self.course} -> {self.group}"
+
+
 class SeminarGroupConnection(TimedBaseModel):
     seminar = models.ForeignKey(
         Seminar,
@@ -125,8 +125,8 @@ class SeminarGroupConnection(TimedBaseModel):
     )
 
     class Meta:
-        verbose_name = "Семинар -> Группа"
-        verbose_name_plural = "2. Семинары -> Группы"
+        verbose_name = "Группа -> Семинар"
+        verbose_name_plural = "5. Группы -> Семинары"
         ordering = ["pk"]
         unique_together = (
             "group",
