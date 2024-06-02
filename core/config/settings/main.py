@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "core.apps.steps.apps.StepsConfig",
     "core.apps.groups.apps.GroupsConfig",
     "core.apps.seminars.apps.SeminarsConfig",
+    "core.apps.dashboard.apps.DashboardConfig",
 ]
 
 
@@ -56,21 +57,8 @@ MIDDLEWARE = [
 ]
 
 is_running_tests = len(sys.argv) > 1 and sys.argv[1] == "test"
-enable_debug_toolbar = os.getenv("ENABLE_DEBUG_TOOLBAR", "False") == "True"
+enable_debug_toolbar = os.getenv("ENABLE_DEBUG_TOOLBAR", "True") == "True"
 
-if DEBUG and not is_running_tests and enable_debug_toolbar:
-    INSTALLED_APPS += [
-        "debug_toolbar",
-    ]
-
-    MIDDLEWARE = [
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-    ] + MIDDLEWARE
-
-    DEBUG_TOOLBAR_CONFIG = {
-        "INTERCEPT_REDIRECTS": False,
-        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG and not is_running_tests,
-    }
 
 TEMPLATES = [
     {

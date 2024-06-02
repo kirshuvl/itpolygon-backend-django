@@ -112,35 +112,6 @@ class Lesson(TimedBaseModel):
         return f"{self.title}"
 
 
-class AuthorCourseEnroll(TimedBaseModel):
-    author = models.ForeignKey(
-        CustomUser,
-        related_name="author_course_enrolls",
-        verbose_name="Автор",
-        on_delete=models.CASCADE,
-    )
-
-    course = models.ForeignKey(
-        Course,
-        related_name="author_course_enrolls",
-        verbose_name="Курс",
-        on_delete=models.CASCADE,
-    )
-
-    class Meta:
-        verbose_name = "Курс -> Автор"
-        verbose_name_plural = "5. Курсы -> Авторы"
-        ordering = ["pk"]
-        unique_together = (
-            "author",
-            "course",
-        )
-        db_table = "author_course_enrolls"
-
-    def __str__(self) -> str:
-        return f"{self.course} -> {self.user}"
-
-
 class LessonStepConnection(TimedBaseModel):
     lesson = models.ForeignKey(
         Lesson,
@@ -177,30 +148,30 @@ class LessonStepConnection(TimedBaseModel):
         )
 
 
-class UserCourseEnroll(TimedBaseModel):
-    user = models.ForeignKey(
+class AuthorCourseEnroll(TimedBaseModel):
+    author = models.ForeignKey(
         CustomUser,
-        related_name="user_course_enrolls",
-        verbose_name="Пользователь",
+        related_name="author_course_enrolls",
+        verbose_name="Автор",
         on_delete=models.CASCADE,
     )
 
     course = models.ForeignKey(
         Course,
-        related_name="user_course_enrolls",
+        related_name="author_course_enrolls",
         verbose_name="Курс",
         on_delete=models.CASCADE,
     )
 
     class Meta:
-        verbose_name = "Курс -> Студент"
-        verbose_name_plural = "5. Курсы -> Студенты"
-        ordering = ("pk",)
+        verbose_name = "Курс -> Автор"
+        verbose_name_plural = "5. Курсы -> Авторы"
+        ordering = ["pk"]
         unique_together = (
-            "user",
+            "author",
             "course",
         )
-        db_table = "user_course_enrolls"
+        db_table = "author_course_enrolls"
 
     def __str__(self) -> str:
         return f"{self.course} -> {self.user}"
