@@ -47,3 +47,32 @@ class UserSeminarEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.seminar} -> {self.user}"
+
+
+class TeacherSeminarEnroll(TimedBaseModel):
+    teacher = models.ForeignKey(
+        CustomUser,
+        related_name="teacher_seminar_enroll",
+        verbose_name="Автор",
+        on_delete=models.CASCADE,
+    )
+
+    seminar = models.ForeignKey(
+        Seminar,
+        related_name="teacher_seminar_enroll",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Семинар -> Преподаватель"
+        verbose_name_plural = "2. Семинары -> Преподаватели"
+        ordering = ["pk"]
+        unique_together = (
+            "teacher",
+            "seminar",
+        )
+        db_table = "teacher_seminar_enrolls"
+
+    def __str__(self) -> str:
+        return f"{self.seminar} -> {self.teacher}"
