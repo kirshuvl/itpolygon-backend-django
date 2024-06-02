@@ -60,7 +60,7 @@ class UserSeminarEnrollAdmin(admin.ModelAdmin):
 
 
 @admin.register(UserHomeworkEnroll)
-class UserSeminarEnrollAdmin(admin.ModelAdmin):
+class UserHomeworkEnrollAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
