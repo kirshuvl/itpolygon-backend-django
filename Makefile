@@ -44,7 +44,7 @@ postgres:
 
 .PHONY: superuser
 superuser:
-	${EXEC} ${DJANGO_CONTAINER} ${MANAGE_PY} createsuperuser
+	${EXEC}t ${DJANGO_CONTAINER} ${MANAGE_PY} createsuperuser
 
 .PHONY: migrations
 migrations:
