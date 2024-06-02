@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # first party
     "core.apps.common.apps.CommonConfig",
     "core.apps.users.apps.UsersConfig",
+    "core.apps.courses.apps.CoursesConfig",
 ]
 
 
