@@ -1,6 +1,7 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
+from core.apps.steps.models import Step
 from core.apps.users.models import CustomUser
 
 
@@ -138,3 +139,39 @@ class AuthorCourseEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.course} -> {self.user}"
+
+
+class LessonStepConnection(TimedBaseModel):
+    lesson = models.ForeignKey(
+        Lesson,
+        related_name="lesson_step_connections",
+        verbose_name="Урок",
+        on_delete=models.CASCADE,
+    )
+
+    step = models.ForeignKey(
+        Step,
+        related_name="lesson_step_connections",
+        verbose_name="Шаг",
+        on_delete=models.CASCADE,
+    )
+
+    number = models.IntegerField(
+        verbose_name="№ шага в уроке",
+        default=1000,
+    )
+
+    is_published = models.BooleanField(
+        verbose_name="Опубликовать?",
+        default=False,
+    )
+
+    class Meta:
+        verbose_name = "Уроки -> Шаг"
+        verbose_name_plural = "4. Уроки -> Шаги"
+        ordering = ["pk"]
+        db_table = "lesson_step_connections"
+        unique_together = (
+            "lesson",
+            "step",
+        )

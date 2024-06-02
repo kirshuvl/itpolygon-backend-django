@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.courses.models import AuthorCourseEnroll, Course, Lesson, Topic
+from core.apps.courses.models import AuthorCourseEnroll, Course, Lesson, LessonStepConnection, Topic
 
 
 @admin.register(Course)
@@ -108,5 +108,36 @@ class AuthorCourseEnrollAdmin(admin.ModelAdmin):
     list_filter = (
         "course",
         "author",
+    )
+    ordering = ("id",)
+
+
+@admin.register(LessonStepConnection)
+class LessonStepConnectionAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "lesson",
+        "step",
+        "is_published",
+        "created_at",
+        "updated_at",
+    )
+    list_display_links = (
+        "id",
+        "lesson",
+        "step",
+    )
+    search_fields = (
+        "id",
+        "lesson",
+        "step",
+        "is_published",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = (
+        "lesson",
+        "step",
+        "is_published",
     )
     ordering = ("id",)
