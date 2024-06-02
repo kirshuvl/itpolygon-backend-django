@@ -10,6 +10,7 @@ python = "^3.11"
 django = "^5.0.6"
 psycopg2-binary = "^2.9.9"
 djangorestframework = "^3.15.1"
+pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.13.2"
@@ -38,6 +39,7 @@ lines_between_sections=1
 
 [tool.flake8]
 max-line-length = 100
+exclude = ["migrations", "*/migrations/*", ]
 
 [tool.black]
 line-length = 100

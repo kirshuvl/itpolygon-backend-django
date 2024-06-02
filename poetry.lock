@@ -182,6 +182,22 @@ optional = false
 python-versions = ">=3.8"
 
 [[package]]
+name = "pillow"
+version = "10.3.0"
+description = "Python Imaging Library (Fork)"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-inline-tabs", "sphinx-removed-in", "sphinxext-opengraph"]
+fpx = ["olefile"]
+mic = ["olefile"]
+tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
+typing = ["typing-extensions"]
+xmp = ["defusedxml"]
+
+[[package]]
 name = "platformdirs"
 version = "4.2.2"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
@@ -292,7 +308,7 @@ test = ["covdefaults (>=2.3)", "coverage-enable-subprocess (>=1)", "coverage (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "3d7aeacc02e768a83df2ccae09cf3c1075dac405de44073aa8b55c16155bd2f3"
+content-hash = "c6bfa18711fcbf2e1ac0d5b5286a6abb4c96ddc818acdcfb41f0124120693189"
 
 [metadata.files]
 asgiref = []
@@ -312,6 +328,7 @@ mypy-extensions = []
 nodeenv = []
 packaging = []
 pathspec = []
+pillow = []
 platformdirs = []
 pre-commit = []
 psycopg2-binary = []
