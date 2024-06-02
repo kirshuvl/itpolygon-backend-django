@@ -1,9 +1,8 @@
 from django.db import models
-from django.forms import ValidationError
 
 from core.apps.common.models import TimedBaseModel
 from core.apps.courses.models import Course
-from core.apps.groups.models import CourseGroupConnection, Group
+from core.apps.groups.models import Group
 from core.apps.users.models import CustomUser
 
 
