@@ -20,6 +20,12 @@ jobs:
 
     - name: Make Application in Docker
       run: make app
+    
+    - name: Create Migrations
+      run: make migrations
+    
+    - name: Run Migrate
+      run: make migrate
 
     - name: Run Test
       run: make test
