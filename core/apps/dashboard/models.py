@@ -3,6 +3,7 @@ from django.db import models
 from core.apps.common.models import TimedBaseModel
 from core.apps.courses.models import Course
 from core.apps.groups.models import Group
+from core.apps.homeworks.models import Homework
 from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
@@ -79,3 +80,40 @@ class UserSeminarEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.seminar} -> {self.user}"
+
+
+class UserHomeworkEnroll(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_homework_enrolls",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    homework = models.ForeignKey(
+        Homework,
+        related_name="user_homework_enrolls",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
+    )
+
+    group = models.ForeignKey(
+        Group,
+        related_name="user_homework_enrolls",
+        verbose_name="Группа",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Студент -> Домашнее задание"
+        verbose_name_plural = "2. Студенты -> Домашние задания"
+        ordering = ("pk",)
+        unique_together = (
+            "user",
+            "homework",
+            "group",
+        )
+        db_table = "user_homework_enrolls"
+
+    def __str__(self) -> str:
+        return f"{self.homework} -> {self.user}"
