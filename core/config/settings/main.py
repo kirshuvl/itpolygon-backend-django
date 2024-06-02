@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import sys
 
 from .auth import *
 from .database import *
@@ -32,7 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "debug_toolbar",
     "drf_spectacular",
     # first party
     "core.apps.common.apps.CommonConfig",
@@ -49,9 +49,24 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
+is_running_tests = len(sys.argv) > 1 and sys.argv[1] == "test"
+enable_debug_toolbar = os.getenv("ENABLE_DEBUG_TOOLBAR", "False") == "True"
+
+if DEBUG and not is_running_tests and enable_debug_toolbar:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
+
+    MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ] + MIDDLEWARE
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "INTERCEPT_REDIRECTS": False,
+        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG and not is_running_tests,
+    }
 
 TEMPLATES = [
     {

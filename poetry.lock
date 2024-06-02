@@ -13,7 +13,7 @@ tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 name = "attrs"
 version = "23.2.0"
 description = "Classes Without Boilerplate"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -158,7 +158,7 @@ crypto = ["cryptography (>=3.3.1)"]
 name = "drf-spectacular"
 version = "0.27.2"
 description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -215,7 +215,7 @@ license = ["ukkonen"]
 name = "inflection"
 version = "0.5.1"
 description = "A port of Ruby on Rails inflector to Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 
@@ -234,7 +234,7 @@ colors = ["colorama (>=0.4.6)"]
 name = "jsonschema"
 version = "4.22.0"
 description = "An implementation of JSON Schema validation for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 
@@ -252,7 +252,7 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 name = "jsonschema-specifications"
 version = "2023.12.1"
 description = "The JSON Schema meta-schemas and vocabularies, exposed as a Registry"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 
@@ -396,7 +396,7 @@ flake8 = "7.0.0"
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -404,7 +404,7 @@ python-versions = ">=3.6"
 name = "referencing"
 version = "0.35.1"
 description = "JSON Referencing + Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 
@@ -416,7 +416,7 @@ rpds-py = ">=0.7.0"
 name = "rpds-py"
 version = "0.18.1"
 description = "Python bindings to Rust's persistent data structures (rpds)"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 
@@ -444,7 +444,7 @@ python-versions = ">=2"
 name = "uritemplate"
 version = "4.1.1"
 description = "Implementation of RFC 6570 URI Templates"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -468,7 +468,7 @@ test = ["covdefaults (>=2.3)", "coverage-enable-subprocess (>=1)", "coverage (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "389d9980d09b125104a43030a9e6d9efeb036aece4ea85f6f61265e691a31b53"
+content-hash = "6718c6ebb357b1db23b32467ab03672a5b310cd31d6807f491c4883533ebe190"
 
 [metadata.files]
 asgiref = []
