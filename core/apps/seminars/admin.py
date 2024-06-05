@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.seminars.models import Seminar, UserSeminarEnroll
+from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
 
 
 @admin.register(Seminar)
@@ -25,29 +25,60 @@ class SeminarAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-@admin.register(UserSeminarEnroll)
-class UserSeminarEnrollAdmin(admin.ModelAdmin):
+@admin.register(TeacherSeminarEnroll)
+class TeacherSeminarEnrollAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "user",
+        "teacher",
         "seminar",
         "created_at",
         "updated_at",
     )
     list_display_links = (
         "id",
-        "user",
+        "teacher",
         "seminar",
     )
     search_fields = (
         "id",
-        "user",
+        "teacher",
         "seminar",
         "created_at",
         "updated_at",
     )
     list_filter = (
-        "user",
+        "teacher",
         "seminar",
+    )
+    ordering = ("id",)
+
+
+@admin.register(SeminarStepConnection)
+class SeminarStepConnectionAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "seminar",
+        "step",
+        "is_published",
+        "created_at",
+        "updated_at",
+    )
+    list_display_links = (
+        "id",
+        "seminar",
+        "step",
+    )
+    search_fields = (
+        "id",
+        "seminar",
+        "step",
+        "is_published",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = (
+        "seminar",
+        "step",
+        "is_published",
     )
     ordering = ("id",)
