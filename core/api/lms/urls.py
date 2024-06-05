@@ -9,4 +9,8 @@ urlpatterns = [
         "",
         include("core.api.lms.seminars"),
     ),
+    path(
+        "",
+        include("core.api.lms.homeworks"),
+    ),
 ]

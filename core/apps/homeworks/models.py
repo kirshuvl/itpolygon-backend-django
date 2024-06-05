@@ -1,6 +1,7 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
+from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
 
@@ -9,6 +10,13 @@ class Homework(TimedBaseModel):
         CustomUser,
         related_name="homeworks",
         verbose_name="Автор",
+        on_delete=models.CASCADE,
+    )
+
+    seminar = models.ForeignKey(
+        Seminar,
+        related_name="homeworks",
+        verbose_name="Семинар",
         on_delete=models.CASCADE,
     )
 
