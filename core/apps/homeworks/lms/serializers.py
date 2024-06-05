@@ -26,7 +26,7 @@ class SeminarRetrieveSerializer(ModelSerializer):
         )
 
 
-class HomeworksListSerializer(ModelSerializer):
+class HomeworkSerializer(ModelSerializer):
     author = TeacherRetrieveSerializer()
     seminar = SeminarRetrieveSerializer()
     steps = SerializerMethodField()

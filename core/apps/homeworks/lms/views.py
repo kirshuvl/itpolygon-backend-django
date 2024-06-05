@@ -1,20 +1,14 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from core.apps.homeworks.models import Homework, HomeworkStepConnection
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.homeworks.lms.serializers import HomeworksListSerializer
+from core.apps.homeworks.lms.serializers import HomeworkSerializer
 
 
-@extend_schema(
-    tags=["LMS"],
-    summary="User Homeworks List",
-)
-class HomeworksListAPIView(ListAPIView):
-    serializer_class = HomeworksListSerializer
-
+class HomeworkMixinAPIView:
     def get_queryset(self):
         return Homework.objects.select_related(
             "author",
@@ -39,3 +33,20 @@ class HomeworksListAPIView(ListAPIView):
                 .order_by("number"),
             ),
         )
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Homeworks List",
+)
+class HomeworkListAPIView(HomeworkMixinAPIView, ListAPIView):
+    serializer_class = HomeworkSerializer
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Homework Retrieve",
+)
+class HomeworkRetrieveAPIView(HomeworkMixinAPIView, RetrieveAPIView):
+    serializer_class = HomeworkSerializer
+    lookup_url_kwarg = "homeworkId"
