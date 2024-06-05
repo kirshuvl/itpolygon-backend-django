@@ -23,14 +23,14 @@ class Seminar(TimedBaseModel):
 class TeacherSeminarEnroll(TimedBaseModel):
     teacher = models.ForeignKey(
         CustomUser,
-        related_name="teacher_seminar_enroll",
+        related_name="teacher_seminar_enrolls",
         verbose_name="Автор",
         on_delete=models.CASCADE,
     )
 
     seminar = models.ForeignKey(
         Seminar,
-        related_name="teacher_seminar_enroll",
+        related_name="teacher_seminar_enrolls",
         verbose_name="Курс",
         on_delete=models.CASCADE,
     )
