@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
 from core.apps.steps.models import UserStepEnroll
@@ -51,5 +51,14 @@ class CourseMixinAPIView:
     tags=["LMS"],
     summary="User Courses List",
 )
-class CoursesListAPIView(CourseMixinAPIView, ListAPIView):
+class CourseListAPIView(CourseMixinAPIView, ListAPIView):
     serializer_class = CourseSerializer
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Course Retrieve",
+)
+class CourseRetrieveAPIView(CourseMixinAPIView, RetrieveAPIView):
+    serializer_class = CourseSerializer
+    lookup_url_kwarg = "courseId"
