@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView
 
-from core.apps.seminars.models import Seminar, TeacherSeminarEnroll
+from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
+from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
 from core.apps.seminars.lms.serializers import SeminarsListSerializer
@@ -14,5 +15,23 @@ class SeminarsListAPIView(ListAPIView):
             Prefetch(
                 "teacher_seminar_enrolls",
                 queryset=TeacherSeminarEnroll.objects.select_related("teacher"),
-            )
+            ),
+            Prefetch(
+                "seminar_step_connections",
+                queryset=SeminarStepConnection.objects.prefetch_related(
+                    Prefetch(
+                        "step__user_step_enrolls",
+                        queryset=UserStepEnroll.objects.filter(user=self.request.user),
+                    )
+                )
+                .select_related(
+                    "step",
+                    "step__textstep",
+                    "step__videostep",
+                    "step__questionstep",
+                    "step__problemstep",
+                )
+                .filter(is_published=True)
+                .order_by("number"),
+            ),
         ).filter(user_seminar_enrolls__user=self.request.user)
