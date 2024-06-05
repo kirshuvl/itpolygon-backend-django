@@ -1,6 +1,10 @@
 from django.urls import path
 
-from core.apps.courses.lms.views import CourseListAPIView, CourseRetrieveAPIView
+from core.apps.courses.lms.views import (
+    CourseListAPIView,
+    CourseRetrieveAPIView,
+    LessonRetrieveAPIView,
+)
 
 urlpatterns = [
     path(
@@ -10,5 +14,9 @@ urlpatterns = [
     path(
         "courses/<int:courseId>/",
         CourseRetrieveAPIView.as_view(),
+    ),
+    path(
+        "lessons/<int:lessonId>/",
+        LessonRetrieveAPIView.as_view(),
     ),
 ]
