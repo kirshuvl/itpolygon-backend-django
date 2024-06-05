@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListAPIView
 
 from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
@@ -7,6 +8,10 @@ from django.db.models import Prefetch
 from core.apps.seminars.lms.serializers import SeminarsListSerializer
 
 
+@extend_schema(
+    tags=["LMS"],
+    summary="User Seminars List",
+)
 class SeminarsListAPIView(ListAPIView):
     serializer_class = SeminarsListSerializer
 
