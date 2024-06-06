@@ -1,8 +1,4 @@
-from django.utils.translation import gettext_lazy as _
-
-from rest_framework import serializers
-
-from core.apps.steps.models import Step, UserStepEnroll
+from core.apps.steps.models import UserStepEnroll
 
 from rest_framework.serializers import ModelSerializer
 
