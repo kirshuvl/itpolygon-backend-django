@@ -8,13 +8,6 @@ from rest_framework.serializers import ModelSerializer
 
 
 class UserStepEnrollCreateSerializer(ModelSerializer):
-    step = serializers.PrimaryKeyRelatedField(
-        queryset=Step.objects.all(),
-        error_messages={
-            "does_not_exist": _("1111111Недопустимый первичный ключ - объект не существует."),
-            "unique": "asdasd",
-        },
-    )
 
     class Meta:
         model = UserStepEnroll
