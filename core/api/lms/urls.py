@@ -13,4 +13,8 @@ urlpatterns = [
         "",
         include("core.api.lms.homeworks"),
     ),
+    path(
+        "",
+        include("core.api.lms.steps"),
+    ),
 ]

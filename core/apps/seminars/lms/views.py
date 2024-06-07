@@ -8,13 +8,7 @@ from django.db.models import Prefetch
 from core.apps.seminars.lms.serializers import SeminarsListSerializer
 
 
-@extend_schema(
-    tags=["LMS"],
-    summary="User Seminars List",
-)
-class SeminarsListAPIView(ListAPIView):
-    serializer_class = SeminarsListSerializer
-
+class SeminarMixinAPIView:
     def get_queryset(self):
         return Seminar.objects.prefetch_related(
             Prefetch(
@@ -40,3 +34,20 @@ class SeminarsListAPIView(ListAPIView):
                 .order_by("number"),
             ),
         ).filter(user_seminar_enrolls__user=self.request.user)
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Seminars List",
+)
+class SeminarListAPIView(SeminarMixinAPIView, ListAPIView):
+    serializer_class = SeminarsListSerializer
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Seminar Retrieve",
+)
+class SeminarRetrieveAPIView(SeminarMixinAPIView, ListAPIView):
+    serializer_class = SeminarsListSerializer
+    lookup_url_kwarg = "seminarId"

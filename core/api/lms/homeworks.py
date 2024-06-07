@@ -1,10 +1,14 @@
 from django.urls import path
 
-from core.apps.homeworks.lms.views import HomeworksListAPIView
+from core.apps.homeworks.lms.views import HomeworkListAPIView, HomeworkRetrieveAPIView
 
 urlpatterns = [
     path(
         "homeworks/",
-        HomeworksListAPIView.as_view(),
-    )
+        HomeworkListAPIView.as_view(),
+    ),
+    path(
+        "homeworks/<int:homeworkId>/",
+        HomeworkRetrieveAPIView.as_view(),
+    ),
 ]
