@@ -1,5 +1,3 @@
-from rest_framework import serializers
-
 from core.apps.courses.models import Course, Lesson, Topic
 from core.apps.steps.models import (
     ProblemStep,
@@ -11,7 +9,7 @@ from core.apps.steps.models import (
     VideoStep,
 )
 
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class UserStepEnrollSerializer(ModelSerializer):
@@ -24,8 +22,8 @@ class UserStepEnrollSerializer(ModelSerializer):
 
 
 class StepBaseSerializer(ModelSerializer):
-    stepType = serializers.SerializerMethodField()
-    userEnroll = serializers.SerializerMethodField()
+    stepType = SerializerMethodField()
+    userEnroll = SerializerMethodField()
 
     class Meta:
         model = Step
@@ -79,14 +77,14 @@ class ProblemStepSerializer(ModelSerializer):
         )
 
 
-class QuestionAnswerSerializer(serializers.ModelSerializer):
+class QuestionAnswerSerializer(ModelSerializer):
     class Meta:
         model = UserAnswerForQuestionStep
         fields = "__all__"
 
 
 class StepSerializer(StepBaseSerializer):
-    body = serializers.SerializerMethodField()
+    body = SerializerMethodField()
 
     class Meta:
         model = Step
@@ -112,7 +110,7 @@ class StepSerializer(StepBaseSerializer):
 
 
 class LessonSerializer(ModelSerializer):
-    steps = serializers.SerializerMethodField()
+    steps = SerializerMethodField()
 
     class Meta:
         model = Lesson
