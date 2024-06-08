@@ -187,7 +187,7 @@ class ProblemStep(Step):
         db_table = "problem_steps"
 
 
-class TestForProblemStep(models.Model):
+class TestForProblemStep(TimedBaseModel):
     problem = models.ForeignKey(
         ProblemStep,
         related_name="tests",
@@ -217,6 +217,68 @@ class TestForProblemStep(models.Model):
         verbose_name_plural = "5. Шаги [Программирование][Тесты]"
         ordering = ["pk"]
         unique_together = ("problem", "number")
+
+
+class UserAnswerForProblemStep(TimedBaseModel):
+    code = models.TextField(
+        verbose_name="Код пользователя",
+        max_length=10000,
+    )
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="codes",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+    problem = models.ForeignKey(
+        ProblemStep,
+        related_name="codes",
+        verbose_name="Задача",
+        on_delete=models.CASCADE,
+    )
+
+    LANGUAGE_CHOICES = [
+        ("python", "Python"),
+        ("cpp", "C++"),
+    ]
+    language = models.CharField(
+        verbose_name="Язык программирования",
+        max_length=10,
+        choices=LANGUAGE_CHOICES,
+        default="python",
+    )
+    VERDICT_CHOICES = [
+        ("PR", "На проверке"),
+        ("OK", "OK"),
+        ("CE", "Ошибка компиляции"),
+        ("WA", "Неправильный ответ"),
+        ("TL", "Превышение времени"),
+        ("ML", "Превышение памяти"),
+        ("UN", "Незвестная ошибка"),
+    ]
+    verdict = models.CharField(
+        verbose_name="Вердикт",
+        max_length=2,
+        choices=VERDICT_CHOICES,
+        default="PR",
+    )
+    cputime = models.FloatField(
+        verbose_name="CPU Time",
+        default=0,
+    )
+    first_fail_test = models.IntegerField(
+        verbose_name="Первый ошибочный тест",
+        default=0,
+    )
+    points = models.IntegerField(
+        verbose_name="Баллы",
+        default=0,
+    )
+
+    class Meta:
+        verbose_name = "Попытка пользователя"
+        verbose_name_plural = "3. Попытки пользователей"
+        ordering = ["pk"]
 
 
 class UserStepEnroll(TimedBaseModel):
