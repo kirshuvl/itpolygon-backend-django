@@ -53,6 +53,5 @@ class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
         fields = (
             "id",
             "code",
-            "user",
             "problem",
         )

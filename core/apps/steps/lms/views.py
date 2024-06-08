@@ -90,3 +90,14 @@ class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
 
 class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
     serializer_class = UserAnswerForProblemStepCreateSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        run_user_code.delay(serializer.instance.id)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

@@ -277,7 +277,7 @@ class UserAnswerForProblemStep(TimedBaseModel):
 
     class Meta:
         verbose_name = "Попытка пользователя"
-        verbose_name_plural = "3. Попытки пользователей"
+        verbose_name_plural = "5. Шаги [Программирование] -> [Ответ]"
         ordering = ["pk"]
 
 
