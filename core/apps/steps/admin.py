@@ -8,6 +8,7 @@ from core.apps.steps.models import (
     TextStep,
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForTestForProblemStep,
     UserStepEnroll,
     VideoStep,
 )
@@ -148,3 +149,22 @@ class UserStepEnrollAdmin(admin.ModelAdmin):
         "user",
     )
     ordering = ("id",)
+
+
+@admin.register(UserAnswerForTestForProblemStep)
+class UserAnswerForTestForProblemStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "verdict",
+    )
+    list_display_links = (
+        "id",
+        "user",
+        "verdict",
+    )
+    search_fields = (
+        "id",
+        "user",
+        "verdict",
+    )

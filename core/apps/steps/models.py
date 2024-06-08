@@ -281,6 +281,72 @@ class UserAnswerForProblemStep(TimedBaseModel):
         ordering = ["pk"]
 
 
+class UserAnswerForTestForProblemStep(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="attempts",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+    code = models.ForeignKey(
+        UserAnswerForProblemStep,
+        related_name="attempts",
+        verbose_name="Решение",
+        on_delete=models.CASCADE,
+    )
+    test = models.ForeignKey(
+        TestForProblemStep,
+        related_name="attempts",
+        verbose_name="Тест",
+        on_delete=models.CASCADE,
+    )
+
+    VERDICT_CHOICES = [
+        ("PR", "На проверке"),
+        ("OK", "OK"),
+        ("CE", "Ошибка компиляции"),
+        ("WA", "Неправильный ответ"),
+        ("TL", "Превышение времени"),
+        ("ML", "Превышение памяти"),
+        ("UN", "Незвестная ошибка"),
+    ]
+    verdict = models.CharField(
+        verbose_name="Вердикт",
+        max_length=2,
+        choices=VERDICT_CHOICES,
+        default="WA",
+    )
+
+    exit_code = models.IntegerField(
+        verbose_name="exit_code",
+    )
+    stdout = models.TextField(
+        verbose_name="stdout",
+        max_length=10000,
+    )
+    stderr = models.TextField(
+        verbose_name="stderr",
+        max_length=10000,
+    )
+    duration = models.FloatField(
+        verbose_name="duration",
+        default=0,
+    )
+    timeout = models.BooleanField(
+        verbose_name="timeout",
+        default=False,
+    )
+    oom_killed = models.BooleanField(
+        verbose_name="oom_killed",
+        default=False,
+    )
+
+    class Meta:
+        verbose_name = "Результат теста"
+        verbose_name_plural = "5. Шаги [Программирование][Тесты] -> [Ответ]"
+        ordering = ["pk"]
+
+
 class UserStepEnroll(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
