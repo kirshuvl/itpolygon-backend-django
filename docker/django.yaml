@@ -29,4 +29,16 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - redis
-  
+  flower:
+    image: mher/flower:latest
+    container_name: flower
+    command: celery --app=core.config.settings.celery flower
+    build:
+      context: .. 
+    ports:
+      - "5555:5555"
+    env_file: 
+     - ../.env
+    depends_on:
+      - redis
+      - celery

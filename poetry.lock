@@ -370,6 +370,32 @@ pycodestyle = ">=2.11.0,<2.12.0"
 pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
+name = "flower"
+version = "2.0.1"
+description = "Celery Flower"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+celery = ">=5.0.5"
+humanize = "*"
+prometheus-client = ">=0.8.0"
+pytz = "*"
+tornado = ">=5.0.0,<7.0.0"
+
+[[package]]
+name = "humanize"
+version = "4.9.0"
+description = "Python humanize utilities"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+tests = ["freezegun", "pytest", "pytest-cov"]
+
+[[package]]
 name = "identify"
 version = "2.5.36"
 description = "File identification library for Python"
@@ -550,6 +576,17 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
+name = "prometheus-client"
+version = "0.20.0"
+description = "Python client for the Prometheus monitoring system."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+twisted = ["twisted"]
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.46"
 description = "Library for building powerful interactive command lines in Python"
@@ -619,6 +656,14 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
 [package.dependencies]
 six = ">=1.5"
+
+[[package]]
+name = "pytz"
+version = "2024.1"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "pywin32"
@@ -724,6 +769,14 @@ tests = ["freezegun (>=0.2.8)", "pretend", "pytest-asyncio (>=0.17)", "pytest (>
 typing = ["mypy (>=1.4)", "rich", "twisted"]
 
 [[package]]
+name = "tornado"
+version = "6.4.1"
+description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "tzdata"
 version = "2024.1"
 description = "Provider of IANA time zone data"
@@ -745,13 +798,12 @@ version = "1.26.12"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4"
 
 [package.extras]
-brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
-h2 = ["h2 (>=4,<5)"]
-socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
-zstd = ["zstandard (>=0.18.0)"]
+brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
+secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "urllib3-secure-extra", "ipaddress"]
+socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "vine"
@@ -789,7 +841,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "e7cdda10a9dff5f092d2232f84b472b0d3c43e46ec7997d4ef2a93b343e1ca5f"
+content-hash = "51685549d43fc5be2df9fb1387344d8d9a22f5a0396c98366045b3f4a2b48b8e"
 
 [metadata.files]
 amqp = []
@@ -818,6 +870,8 @@ drf-spectacular = []
 epicbox = []
 filelock = []
 flake8 = []
+flower = []
+humanize = []
 identify = []
 idna = []
 inflection = []
@@ -833,6 +887,7 @@ pathspec = []
 pillow = []
 platformdirs = []
 pre-commit = []
+prometheus-client = []
 prompt-toolkit = []
 psycopg2-binary = []
 pycodestyle = []
@@ -840,6 +895,7 @@ pyflakes = []
 pyjwt = []
 pyproject-flake8 = []
 python-dateutil = []
+pytz = []
 pywin32 = []
 pyyaml = []
 redis = []
@@ -849,6 +905,7 @@ rpds-py = []
 six = []
 sqlparse = []
 structlog = []
+tornado = []
 tzdata = []
 uritemplate = []
 urllib3 = []
