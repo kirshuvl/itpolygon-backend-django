@@ -7,6 +7,7 @@ from core.apps.steps.models import QuestionStep, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
+    UserAnswerForProblemStepRetrieveSerializer,
     UserAnswerForQuestionStepCreateSerializer,
     UserAnswerForQuestionStepRetrieveSerializer,
     UserStepEnrollCreateSerializer,
@@ -79,15 +80,21 @@ class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
         answer_data = UserAnswerForQuestionStepRetrieveSerializer(serializer.instance).data
         enroll_data = UserStepEnrollRetrieveSerializer(enroll).data
 
+        headers = self.get_success_headers(serializer.data)
         return Response(
             {
                 "answer": answer_data,
                 "userEnroll": enroll_data,
             },
             status=status.HTTP_201_CREATED,
+            headers=headers,
         )
 
 
+@extend_schema(
+    tags=["LMS"],
+    summary="User Answer For Problem Step Create",
+)
 class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
     serializer_class = UserAnswerForProblemStepCreateSerializer
 
@@ -100,4 +107,8 @@ class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         run_user_code.delay(serializer.instance.id)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            UserAnswerForProblemStepRetrieveSerializer(serializer.instance).data,
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )

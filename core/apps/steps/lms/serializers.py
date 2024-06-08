@@ -55,3 +55,18 @@ class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
             "code",
             "problem",
         )
+
+
+class UserAnswerForProblemStepRetrieveSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForProblemStep
+        fields = (
+            "id",
+            "code",
+            "problem",
+            "language",
+            "verdict",
+            "cputime",
+            "first_fail_test",
+            "points",
+        )

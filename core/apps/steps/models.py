@@ -264,15 +264,15 @@ class UserAnswerForProblemStep(TimedBaseModel):
     )
     cputime = models.FloatField(
         verbose_name="CPU Time",
-        default=0,
+        null=True,
     )
     first_fail_test = models.IntegerField(
         verbose_name="Первый ошибочный тест",
-        default=0,
+        null=True,
     )
     points = models.IntegerField(
         verbose_name="Баллы",
-        default=0,
+        null=True,
     )
 
     class Meta:
