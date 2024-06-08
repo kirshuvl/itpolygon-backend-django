@@ -187,6 +187,38 @@ class ProblemStep(Step):
         db_table = "problem_steps"
 
 
+class TestForProblemStep(models.Model):
+    problem = models.ForeignKey(
+        ProblemStep,
+        related_name="tests",
+        verbose_name="Задача",
+        on_delete=models.CASCADE,
+    )
+
+    number = models.IntegerField(
+        verbose_name="№ теста",
+        default=1000,
+    )
+
+    input = models.TextField(
+        verbose_name="Входные данные",
+        max_length=100000,
+        blank=True,
+    )
+
+    output = models.TextField(
+        verbose_name="Выходные данные",
+        max_length=100000,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Шаг [Программирование][Тест]"
+        verbose_name_plural = "5. Шаги [Программирование][Тесты]"
+        ordering = ["pk"]
+        unique_together = ("problem", "number")
+
+
 class UserStepEnroll(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,

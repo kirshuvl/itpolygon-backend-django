@@ -4,6 +4,7 @@ from core.apps.steps.models import (
     ProblemStep,
     QuestionStep,
     Step,
+    TestForProblemStep,
     TextStep,
     UserAnswerForQuestionStep,
     UserStepEnroll,
@@ -69,6 +70,33 @@ class UserAnswerForQuestionStepAdmin(admin.ModelAdmin):
         "user",
         "question",
     )
+    ordering = ("id",)
+
+
+@admin.register(TestForProblemStep)
+class TestForProblemStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    list_display_links = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    search_fields = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    list_filter = ("problem",)
     ordering = ("id",)
 
 
