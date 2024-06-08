@@ -4,10 +4,13 @@ from core.config.settings.celery import app
 
 
 @app.task
-def run_user_code():
+def run_user_code(code):
+    data = []
     for i in range(20):
-        epicbox.configure(profiles=[epicbox.Profile("python", "python:3.6.5-alpine")])
-        files = [{"name": "main.py", "content": b"print(42)"}]
-        limits = {"cputime": 1, "memory": 64}
+        epicbox.configure(profiles=[epicbox.Profile("python", "stepik/epicbox-python:3.12.3-1")])
+        files = [{"name": "main.py", "content": bytes(code, encoding="UTF-8")}]
+        limits = {"cputime": 2, "memory": 64}
         result = epicbox.run("python", "python3 main.py", files=files, limits=limits)
-        print(result)
+        data.append(result)
+    # print(result)
+    return data

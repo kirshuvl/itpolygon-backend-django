@@ -56,10 +56,6 @@ class CourseMixinAPIView:
 class CourseListAPIView(CourseMixinAPIView, ListAPIView):
     serializer_class = CourseSerializer
 
-    def get_queryset(self):
-        run_user_code.delay()
-        return super().get_queryset()
-
 
 @extend_schema(
     tags=["LMS"],

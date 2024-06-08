@@ -6,11 +6,14 @@ from rest_framework.response import Response
 from core.apps.steps.models import QuestionStep, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
+    UserAnswerForProblemStepCreateSerializer,
     UserAnswerForQuestionStepCreateSerializer,
     UserAnswerForQuestionStepRetrieveSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
 )
+
+from core.apps.steps.tasks import run_user_code
 
 
 @extend_schema(
@@ -83,3 +86,7 @@ class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
             },
             status=status.HTTP_201_CREATED,
         )
+
+
+class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
+    serializer_class = UserAnswerForProblemStepCreateSerializer
