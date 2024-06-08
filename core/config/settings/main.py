@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 
 from .auth import *
+from .celery import *
 from .database import *
 from .drf import *
 
@@ -97,3 +98,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
+REDIS_HOST = "redis"
+REDIS_PORT = "6379"
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 3600}
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERYD_CONCURRENCY = 20

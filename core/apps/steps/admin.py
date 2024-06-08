@@ -4,8 +4,11 @@ from core.apps.steps.models import (
     ProblemStep,
     QuestionStep,
     Step,
+    TestForProblemStep,
     TextStep,
+    UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForTestForProblemStep,
     UserStepEnroll,
     VideoStep,
 )
@@ -72,6 +75,52 @@ class UserAnswerForQuestionStepAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
+@admin.register(TestForProblemStep)
+class TestForProblemStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    list_display_links = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    search_fields = (
+        "id",
+        "problem",
+        "number",
+        "input",
+        "output",
+    )
+    list_filter = ("problem",)
+    ordering = ("id",)
+
+
+@admin.register(UserAnswerForProblemStep)
+class UserAnswerForProblemStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "verdict",
+    )
+    list_display_links = (
+        "id",
+        "user",
+        "verdict",
+    )
+    search_fields = (
+        "id",
+        "user",
+        "verdict",
+    )
+
+
 @admin.register(UserStepEnroll)
 class UserStepEnrollAdmin(admin.ModelAdmin):
     list_display = (
@@ -100,3 +149,22 @@ class UserStepEnrollAdmin(admin.ModelAdmin):
         "user",
     )
     ordering = ("id",)
+
+
+@admin.register(UserAnswerForTestForProblemStep)
+class UserAnswerForTestForProblemStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "verdict",
+    )
+    list_display_links = (
+        "id",
+        "user",
+        "verdict",
+    )
+    search_fields = (
+        "id",
+        "user",
+        "verdict",
+    )
