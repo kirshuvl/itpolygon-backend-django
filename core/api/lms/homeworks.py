@@ -12,7 +12,7 @@ urlpatterns = [
         HomeworkListAPIView.as_view(),
     ),
     path(
-        "homeworks/<int:homeworkId>/",
+        "homeworks/<int:homeworkId>/steps/",
         HomeworkRetrieveAPIView.as_view(),
     ),
     path(
