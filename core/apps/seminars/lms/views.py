@@ -5,10 +5,34 @@ from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSem
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.seminars.lms.serializers import SeminarsListSerializer
+from core.apps.seminars.lms.serializers import SeminarsListSerializer, SeminarsRetrieveSerializer
 
 
-class SeminarMixinAPIView:
+@extend_schema(
+    tags=["LMS"],
+    summary="User Seminars List",
+)
+class SeminarListAPIView(ListAPIView):
+    serializer_class = SeminarsListSerializer
+
+    def get_queryset(self):
+        return Seminar.objects.prefetch_related(
+            Prefetch(
+                "teacher_seminar_enrolls",
+                queryset=TeacherSeminarEnroll.objects.select_related("teacher"),
+            ),
+            "user_seminar_enrolls__course",
+        ).filter(user_seminar_enrolls__user=self.request.user)
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Seminar Retrieve",
+)
+class SeminarRetrieveAPIView(ListAPIView):
+    serializer_class = SeminarsRetrieveSerializer
+    lookup_url_kwarg = "seminarId"
+
     def get_queryset(self):
         return Seminar.objects.prefetch_related(
             Prefetch(
@@ -34,20 +58,3 @@ class SeminarMixinAPIView:
                 .order_by("number"),
             ),
         ).filter(user_seminar_enrolls__user=self.request.user)
-
-
-@extend_schema(
-    tags=["LMS"],
-    summary="User Seminars List",
-)
-class SeminarListAPIView(SeminarMixinAPIView, ListAPIView):
-    serializer_class = SeminarsListSerializer
-
-
-@extend_schema(
-    tags=["LMS"],
-    summary="User Seminar Retrieve",
-)
-class SeminarRetrieveAPIView(SeminarMixinAPIView, ListAPIView):
-    serializer_class = SeminarsListSerializer
-    lookup_url_kwarg = "seminarId"

@@ -1,3 +1,4 @@
+from core.apps.courses.models import Course
 from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
@@ -16,7 +17,43 @@ class TeacherRetrieveSerializer(ModelSerializer):
         )
 
 
+class CourseSerializer(ModelSerializer):
+    class Meta:
+        model = Course
+        fields = (
+            "id",
+            "title",
+            "icon",
+        )
+
+
 class SeminarsListSerializer(ModelSerializer):
+    teachers = SerializerMethodField()
+    course = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teachers",
+            "course",
+        )
+
+    def get_teachers(self, seminar):
+        enrolls = seminar.teacher_seminar_enrolls.all()
+        teachers = [enroll.teacher for enroll in enrolls]
+        if teachers:
+            return TeacherRetrieveSerializer(teachers, many=True).data
+        return None
+
+    def get_course(self, seminar):
+        q = seminar.user_seminar_enrolls.all()
+        courses = [enroll.course for enroll in q][0]
+        return CourseSerializer(courses).data
+
+
+class SeminarsRetrieveSerializer(ModelSerializer):
     teachers = SerializerMethodField()
     steps = SerializerMethodField()
 
