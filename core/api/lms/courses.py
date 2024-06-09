@@ -12,7 +12,7 @@ urlpatterns = [
         CourseListAPIView.as_view(),
     ),
     path(
-        "courses/<int:courseId>/",
+        "courses/<int:courseId>/curriculum/",
         CourseRetrieveAPIView.as_view(),
     ),
     path(
