@@ -67,6 +67,13 @@ class UserSeminarEnroll(TimedBaseModel):
         on_delete=models.CASCADE,
     )
 
+    course = models.ForeignKey(
+        Course,
+        related_name="user_seminar_enrolls",
+        verbose_name="Курс",
+        on_delete=models.CASCADE,
+    )
+
     class Meta:
         verbose_name = "Студент -> Семинар"
         verbose_name_plural = "2. Студенты -> Семинары"
