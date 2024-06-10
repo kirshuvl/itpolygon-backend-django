@@ -50,3 +50,11 @@ class HomeworkListAPIView(HomeworkMixinAPIView, ListAPIView):
 class HomeworkRetrieveAPIView(HomeworkMixinAPIView, RetrieveAPIView):
     serializer_class = HomeworkSerializer
     lookup_url_kwarg = "homeworkId"
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="Course Homework List",
+)
+class CourseHomeworkListAPIView(HomeworkMixinAPIView, ListAPIView):
+    serializer_class = HomeworkSerializer

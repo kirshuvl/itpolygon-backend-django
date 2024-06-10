@@ -8,7 +8,7 @@ urlpatterns = [
         SeminarListAPIView.as_view(),
     ),
     path(
-        "seminars/<int:seminarId>/",
+        "seminars/<int:seminarId>/steps/",
         SeminarRetrieveAPIView.as_view(),
     ),
 ]
