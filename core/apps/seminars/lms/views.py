@@ -30,6 +30,7 @@ class SeminarListAPIView(ListAPIView):
     summary="User Seminar Retrieve",
 )
 class SeminarRetrieveAPIView(RetrieveAPIView):
+
     serializer_class = SeminarsRetrieveSerializer
     lookup_url_kwarg = "seminarId"
 
