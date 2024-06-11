@@ -1,12 +1,12 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.courses.lms.serializers import CourseListSerializer
+from core.apps.courses.lms.serializers import CourseListSerializer, CourseRetrieveSerializer
 
 
 class CourseMixinAPIView:
@@ -55,3 +55,12 @@ class CourseMixinAPIView:
 class CourseListAPIView(CourseMixinAPIView, ListAPIView):
     serializer_class = CourseListSerializer
     permission_classes = [IsAuthenticated]
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Course Retrieve",
+)
+class CourseRetrieveAPIView(CourseMixinAPIView, RetrieveAPIView):
+    serializer_class = CourseRetrieveSerializer
+    lookup_url_kwarg = "courseId"

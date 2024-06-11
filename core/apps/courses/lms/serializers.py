@@ -1,6 +1,8 @@
-from core.apps.courses.models import Course
+from core.apps.courses.models import Course, Lesson, Topic
 
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
+from core.apps.steps.serializers import StepRetrieveSerializer
 
 
 class CourseListSerializer(ModelSerializer):
@@ -49,3 +51,47 @@ class CourseListSerializer(ModelSerializer):
                 "completed": completed_tpractical_steps,
             },
         }
+
+
+class LessonRetrieveSerializer(ModelSerializer):
+    steps = SerializerMethodField()
+
+    class Meta:
+        model = Lesson
+        fields = (
+            "id",
+            "title",
+            "number",
+            "steps",
+        )
+
+    def get_steps(self, lesson):
+        queryset = [lesson.step for lesson in lesson.lesson_step_connections.all()]
+
+        return StepRetrieveSerializer(queryset, many=True).data
+
+
+class TopicRetrieveSerializer(ModelSerializer):
+    lessons = LessonRetrieveSerializer(many=True)
+
+    class Meta:
+        model = Topic
+        fields = (
+            "id",
+            "title",
+            "number",
+            "lessons",
+        )
+
+
+class CourseRetrieveSerializer(ModelSerializer):
+    topics = TopicRetrieveSerializer(many=True)
+
+    class Meta:
+        model = Course
+        fields = (
+            "id",
+            "title",
+            "icon",
+            "topics",
+        )

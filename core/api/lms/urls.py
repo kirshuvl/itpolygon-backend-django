@@ -5,4 +5,8 @@ urlpatterns = [
         "",
         include("core.api.lms.dashboard"),
     ),
+    path(
+        "",
+        include("core.api.lms.courses"),
+    ),
 ]
