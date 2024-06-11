@@ -1,10 +1,6 @@
 from django.contrib import admin
 
-from core.apps.dashboard.models import (
-    UserCourseEnroll,
-    # UserSeminarHomeworkEnroll,
-    # UserSeminarEnroll,
-)
+from core.apps.dashboard.models import UserCourseEnroll
 
 
 @admin.register(UserCourseEnroll)
