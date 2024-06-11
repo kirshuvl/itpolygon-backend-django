@@ -2,12 +2,9 @@ from django.urls import path
 
 from core.apps.seminars.lms.views import SeminarListAPIView
 
-urlpatterns = []
-
-"""
-
+urlpatterns = [
     path(
         "seminars/<int:seminarId>/steps/",
-        SeminarRetrieveAPIView.as_view(),
+        SeminarListAPIView.as_view(),
     ),
-    """
+]

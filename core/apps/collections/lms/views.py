@@ -3,6 +3,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from core.apps.collections.models import Collection, CollectionStepConnection
+from core.apps.dashboard.models import UserSeminarEnroll
+from core.apps.seminars.models import Seminar
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
@@ -34,15 +36,6 @@ class HomeworkMixinAPIView:
                 .order_by("number"),
             ),
         )
-
-
-@extend_schema(
-    tags=["LMS"],
-    summary="User Homeworks List",
-)
-class HomeworkListAPIView(HomeworkMixinAPIView, ListAPIView):
-    serializer_class = HomeworkSerializer
-    permission_classes = [IsAuthenticated]
 
 
 @extend_schema(

@@ -5,24 +5,25 @@ urlpatterns = [
         "",
         include("core.api.lms.dashboard"),
     ),
+    path(
+        "",
+        include("core.api.lms.seminars"),
+    ),
 ]
 
 """
 
-path(
+    path(
         "",
         include("core.api.lms.courses"),
     ),
     path(
         "",
-        include("core.api.lms.seminars"),
+        include("core.api.lms.homeworks"),
     ),
     path(
         "",
-        include("core.api.lms.homeworks"),
+        include("core.api.lms.steps"),
     ),
-    # path(
-    #    "",
-    #    include("core.api.lms.steps"),
-    # ),
+
 """

@@ -6,7 +6,6 @@ from core.apps.users.models import CustomUser
 
 
 class Seminar(TimedBaseModel):
-
     date = models.DateTimeField(
         verbose_name="Дата занятия",
     )

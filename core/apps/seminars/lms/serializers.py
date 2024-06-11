@@ -22,3 +22,22 @@ class SeminarsListSerializer(ModelSerializer):
         course = seminar.user_seminar_enrolls.first().collection.course
 
         return CourseCommonSerializer(course, context=self.context).data
+
+
+class HomeworkListSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teacher",
+            "course",
+        )
+
+    def get_course(self, seminar):
+        course = seminar.user_seminar_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data

@@ -1,8 +1,7 @@
 from django.urls import path
 
-from core.apps.collections.lms.views import HomeworkListAPIView
 from core.apps.courses.lms.views import CourseListAPIView
-from core.apps.seminars.lms.views import SeminarListAPIView
+from core.apps.seminars.lms.views import SeminarListAPIView, HomeworkListAPIView
 
 urlpatterns = [
     path(
