@@ -28,6 +28,13 @@ class UserStepEnrollCreateAPIView(CreateAPIView):
         return serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
+        try:
+            instance = UserStepEnroll.objects.get(user=self.request.user, step=request.data["step"])
+            serializer = UserStepEnrollRetrieveSerializer(instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except UserStepEnroll.DoesNotExist:
+            pass
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
