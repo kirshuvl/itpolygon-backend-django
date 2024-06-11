@@ -6,7 +6,11 @@ from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.courses.lms.serializers import CourseListSerializer, CourseRetrieveSerializer
+from core.apps.courses.lms.serializers import (
+    CourseListSerializer,
+    CourseRetrieveSerializer,
+    LessonRetrieveSerializer,
+)
 
 
 class CourseMixinAPIView:
@@ -64,3 +68,33 @@ class CourseListAPIView(CourseMixinAPIView, ListAPIView):
 class CourseRetrieveAPIView(CourseMixinAPIView, RetrieveAPIView):
     serializer_class = CourseRetrieveSerializer
     lookup_url_kwarg = "courseId"
+
+
+@extend_schema(
+    tags=["LMS", "Screens"],
+    summary="Lesson Retrieve",
+)
+class LessonRetrieveAPIView(RetrieveAPIView):
+    serializer_class = LessonRetrieveSerializer
+    lookup_url_kwarg = "lessonId"
+
+    def get_queryset(self):
+        return Lesson.objects.prefetch_related(
+            Prefetch(
+                "lesson_step_connections",
+                queryset=LessonStepConnection.objects.prefetch_related(
+                    Prefetch(
+                        "step__user_step_enrolls",
+                        queryset=UserStepEnroll.objects.filter(user=self.request.user),
+                    )
+                )
+                .select_related(
+                    "step",
+                    "step__textstep",
+                    "step__videostep",
+                    "step__questionstep",
+                    "step__problemstep",
+                )
+                .order_by("number"),
+            )
+        )
