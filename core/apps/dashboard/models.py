@@ -45,6 +45,7 @@ class UserCourseEnroll(TimedBaseModel):
         return f"{self.course} -> {self.user}"
 
 
+"""
 class UserSeminarEnroll(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
@@ -89,11 +90,18 @@ class UserSeminarEnroll(TimedBaseModel):
         return f"{self.seminar} -> {self.user}"
 
 
-class UserHomeworkEnroll(TimedBaseModel):
+class UserSeminarHomeworkEnroll(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
         related_name="user_homework_enrolls",
         verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    seminar = models.ForeignKey(
+        Seminar,
+        related_name="user_homework_enrolls",
+        verbose_name="Курс",
         on_delete=models.CASCADE,
     )
 
@@ -104,13 +112,6 @@ class UserHomeworkEnroll(TimedBaseModel):
         on_delete=models.CASCADE,
     )
 
-    group = models.ForeignKey(
-        Group,
-        related_name="user_homework_enrolls",
-        verbose_name="Группа",
-        on_delete=models.CASCADE,
-    )
-
     class Meta:
         verbose_name = "Студент -> Домашнее задание"
         verbose_name_plural = "2. Студенты -> Домашние задания"
@@ -118,9 +119,9 @@ class UserHomeworkEnroll(TimedBaseModel):
         unique_together = (
             "user",
             "homework",
-            "group",
         )
         db_table = "user_homework_enrolls"
 
     def __str__(self) -> str:
         return f"{self.homework} -> {self.user}"
+"""

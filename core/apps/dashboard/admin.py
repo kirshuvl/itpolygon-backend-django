@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from core.apps.dashboard.models import UserCourseEnroll, UserHomeworkEnroll, UserSeminarEnroll
+from core.apps.dashboard.models import (
+    UserCourseEnroll,
+    # UserSeminarHomeworkEnroll,
+    # UserSeminarEnroll,
+)
 
 
 @admin.register(UserCourseEnroll)
@@ -31,6 +35,7 @@ class UserCourseEnrollAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
+"""
 @admin.register(UserSeminarEnroll)
 class UserSeminarEnrollAdmin(admin.ModelAdmin):
     list_display = (
@@ -59,8 +64,8 @@ class UserSeminarEnrollAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-@admin.register(UserHomeworkEnroll)
-class UserHomeworkEnrollAdmin(admin.ModelAdmin):
+@admin.register(UserSeminarHomeworkEnroll)
+class UserSeminarHomeworkEnrollAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
@@ -85,3 +90,4 @@ class UserHomeworkEnrollAdmin(admin.ModelAdmin):
         "homework",
     )
     ordering = ("id",)
+"""
