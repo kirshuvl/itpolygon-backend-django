@@ -1,6 +1,6 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-
 from core.apps.courses.models import Course
+
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class CourseListSerializer(ModelSerializer):

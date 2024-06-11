@@ -6,9 +6,7 @@ from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.courses.lms.serializers import (
-    CourseListSerializer,
-)
+from core.apps.courses.lms.serializers import CourseListSerializer
 
 
 class CourseMixinAPIView:

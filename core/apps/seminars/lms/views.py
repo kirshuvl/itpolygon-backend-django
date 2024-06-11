@@ -5,10 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from core.apps.collections.models import CollectionStepConnection
 from core.apps.dashboard.models import UserHomeworkEnroll, UserSeminarEnroll
 from core.apps.seminars.models import Seminar
+from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
 from core.apps.seminars.lms.serializers import HomeworkListSerializer, SeminarsListSerializer
-from core.apps.steps.models import UserStepEnroll
 
 
 @extend_schema(
