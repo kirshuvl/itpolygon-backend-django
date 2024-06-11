@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
 from core.apps.steps.models import UserStepEnroll
@@ -29,7 +29,7 @@ class SeminarListAPIView(ListAPIView):
     tags=["LMS"],
     summary="User Seminar Retrieve",
 )
-class SeminarRetrieveAPIView(ListAPIView):
+class SeminarRetrieveAPIView(RetrieveAPIView):
     serializer_class = SeminarsRetrieveSerializer
     lookup_url_kwarg = "seminarId"
 
