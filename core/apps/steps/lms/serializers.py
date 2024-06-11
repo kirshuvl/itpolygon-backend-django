@@ -19,8 +19,6 @@ class UserStepEnrollRetrieveSerializer(ModelSerializer):
         model = UserStepEnroll
         fields = (
             "id",
-            "user",
-            "step",
             "status",
         )
 
