@@ -6,12 +6,9 @@ from core.apps.courses.lms.views import (
     LessonRetrieveAPIView,
 )
 
-urlpatterns = [
-    path(
-        "courses/",
-        CourseListAPIView.as_view(),
-    ),
-    path(
+urlpatterns = []
+"""
+path(
         "courses/<int:courseId>/curriculum/",
         CourseRetrieveAPIView.as_view(),
     ),
@@ -19,4 +16,5 @@ urlpatterns = [
         "lessons/<int:lessonId>/steps/",
         LessonRetrieveAPIView.as_view(),
     ),
-]
+
+"""

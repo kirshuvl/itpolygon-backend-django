@@ -6,11 +6,9 @@ from core.apps.collections.lms.views import (
     HomeworkRetrieveAPIView,
 )
 
-urlpatterns = [
-    path(
-        "homeworks/",
-        HomeworkListAPIView.as_view(),
-    ),
+urlpatterns = []
+"""
+
     path(
         "homeworks/<int:homeworkId>/steps/",
         HomeworkRetrieveAPIView.as_view(),
@@ -19,4 +17,4 @@ urlpatterns = [
         "courses/<int:courseId>/homeworks/",
         CourseHomeworkListAPIView.as_view(),
     ),
-]
+    """
