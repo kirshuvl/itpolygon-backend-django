@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
+from core.apps.seminars.models import Seminar, TeacherSeminarEnroll
 
 
 @admin.register(Seminar)

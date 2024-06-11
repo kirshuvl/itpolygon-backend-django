@@ -65,7 +65,6 @@ class SeminarsListSerializer(ModelSerializer):
 
 class SeminarsRetrieveSerializer(ModelSerializer):
     teachers = SerializerMethodField()
-    steps = SerializerMethodField()
 
     class Meta:
         model = Seminar
@@ -82,8 +81,3 @@ class SeminarsRetrieveSerializer(ModelSerializer):
         if teachers:
             return TeacherRetrieveSerializer(teachers, many=True).data
         return None
-
-    def get_steps(self, seminar):
-        connections = seminar.seminar_step_connections.all()
-        steps = [connection.step for connection in connections]
-        return StepSerializer(steps, many=True).data
