@@ -53,7 +53,7 @@ class Step(TimedBaseModel):
             return "problemstep"
         return None
 
-    def __str__(self) -> str:
+    def __str__(self):
         data = {
             "textstep": "[Шаг][Текст]",
             "videostep": "[Шаг][Видео]",

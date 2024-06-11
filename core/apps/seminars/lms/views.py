@@ -3,7 +3,6 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from core.apps.seminars.models import Seminar, TeacherSeminarEnroll
-from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
 from core.apps.seminars.lms.serializers import SeminarsListSerializer, SeminarsRetrieveSerializer

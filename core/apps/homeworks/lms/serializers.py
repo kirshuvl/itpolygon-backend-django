@@ -1,11 +1,9 @@
 from core.apps.homeworks.models import Homework
 from core.apps.seminars.models import Seminar
-from core.apps.users.models import CustomUser
 
 from core.apps.courses.lms.serializers import StepSerializer
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-
 from core.apps.users.serializers import CustomUserCommonSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class SeminarRetrieveSerializer(ModelSerializer):

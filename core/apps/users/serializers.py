@@ -1,6 +1,6 @@
-from rest_framework.serializers import ModelSerializer, CharField
-
 from core.apps.users.models import CustomUser
+
+from rest_framework.serializers import CharField, ModelSerializer
 
 
 class CustomUserCommonSerializer(ModelSerializer):

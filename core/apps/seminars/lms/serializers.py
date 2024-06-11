@@ -2,7 +2,6 @@ from core.apps.courses.models import Course
 from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
-from core.apps.courses.lms.serializers import StepSerializer
 from rest_framework.serializers import CharField, ModelSerializer, SerializerMethodField
 
 

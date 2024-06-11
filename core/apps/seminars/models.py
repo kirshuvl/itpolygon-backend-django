@@ -1,7 +1,7 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
-from core.apps.steps.models import Step
+from core.apps.homeworks.models import Homework
 from core.apps.users.models import CustomUser
 
 
@@ -38,7 +38,7 @@ class TeacherSeminarEnroll(TimedBaseModel):
 
     class Meta:
         verbose_name = "Семинар -> Преподаватель"
-        verbose_name_plural = "2. Семинары -> Преподаватели"
+        verbose_name_plural = "3. Семинары -> Преподаватели"
         ordering = ["pk"]
         unique_together = (
             "teacher",
@@ -48,3 +48,32 @@ class TeacherSeminarEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.seminar} -> {self.teacher}"
+
+
+class HomeworkSeminarConnection(TimedBaseModel):
+    homework = models.ForeignKey(
+        Homework,
+        related_name="homework_seminar_connections",
+        verbose_name="Задание",
+        on_delete=models.CASCADE,
+    )
+
+    seminar = models.ForeignKey(
+        Seminar,
+        related_name="homework_seminar_connections",
+        verbose_name="Семинар",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Семинар -> Домашнее задание"
+        verbose_name_plural = "2. Семинары -> Домашние задания"
+        ordering = ["pk"]
+        unique_together = (
+            "homework",
+            "seminar",
+        )
+        db_table = "homework_seminar_connections"
+
+    def __str__(self) -> str:
+        return f"{self.homework} -> {self.seminar}"
