@@ -5,16 +5,7 @@ from core.apps.users.models import CustomUser
 from core.apps.courses.lms.serializers import StepSerializer
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-
-class TeacherRetrieveSerializer(ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "icon",
-        )
+from core.apps.users.serializers import CustomUserCommonSerializer
 
 
 class SeminarRetrieveSerializer(ModelSerializer):
@@ -27,7 +18,7 @@ class SeminarRetrieveSerializer(ModelSerializer):
 
 
 class HomeworkSerializer(ModelSerializer):
-    author = TeacherRetrieveSerializer()
+    author = CustomUserCommonSerializer()
     seminar = SeminarRetrieveSerializer()
     steps = SerializerMethodField()
 
@@ -38,6 +29,7 @@ class HomeworkSerializer(ModelSerializer):
             "author",
             "seminar",
             "steps",
+            "course",
         )
 
     def get_steps(self, seminar):

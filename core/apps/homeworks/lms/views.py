@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from core.apps.homeworks.models import Homework, HomeworkStepConnection
 from core.apps.steps.models import UserStepEnroll
@@ -41,6 +42,7 @@ class HomeworkMixinAPIView:
 )
 class HomeworkListAPIView(HomeworkMixinAPIView, ListAPIView):
     serializer_class = HomeworkSerializer
+    permission_classes = [IsAuthenticated]
 
 
 @extend_schema(

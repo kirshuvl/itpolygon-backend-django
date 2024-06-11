@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from core.apps.seminars.models import Seminar, SeminarStepConnection, TeacherSeminarEnroll
 from core.apps.steps.models import UserStepEnroll
@@ -14,6 +15,7 @@ from core.apps.seminars.lms.serializers import SeminarsListSerializer, SeminarsR
 )
 class SeminarListAPIView(ListAPIView):
     serializer_class = SeminarsListSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Seminar.objects.prefetch_related(

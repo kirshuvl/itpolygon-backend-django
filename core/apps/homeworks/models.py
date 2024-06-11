@@ -1,6 +1,7 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
+from core.apps.courses.models import Course
 from core.apps.seminars.models import Seminar
 from core.apps.steps.models import Step
 from core.apps.users.models import CustomUser
@@ -14,10 +15,10 @@ class Homework(TimedBaseModel):
         on_delete=models.CASCADE,
     )
 
-    seminar = models.ForeignKey(
-        Seminar,
+    course = models.ForeignKey(
+        Course,
         related_name="homeworks",
-        verbose_name="Семинар",
+        verbose_name="Курс",
         on_delete=models.CASCADE,
     )
 
@@ -27,12 +28,15 @@ class Homework(TimedBaseModel):
         ordering = ["pk"]
         db_table = "homeworks"
 
+    def __str__(self) -> str:
+        return f"Домашнее задание № {self.pk}"
+
 
 class HomeworkStepConnection(TimedBaseModel):
     homework = models.ForeignKey(
         Homework,
         related_name="homework_step_connections",
-        verbose_name="Семинар",
+        verbose_name="Домашнее задание",
         on_delete=models.CASCADE,
     )
 
@@ -44,18 +48,18 @@ class HomeworkStepConnection(TimedBaseModel):
     )
 
     number = models.IntegerField(
-        verbose_name="№ шага в семинаре",
+        verbose_name="№ шага в домашнем задании",
         default=1000,
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать?",
-        default=False,
+        verbose_name="Опубликовать",
+        default=True,
     )
 
     class Meta:
         verbose_name = "Домашнее задание -> Шаг"
-        verbose_name_plural = "3. Домашние задания -> Шаги"
+        verbose_name_plural = "2. Домашние задания -> Шаги"
         ordering = ["pk"]
         db_table = "homework_step_connections"
         unique_together = (

@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
 from core.apps.steps.models import UserStepEnroll
@@ -57,6 +58,7 @@ class CourseMixinAPIView:
 )
 class CourseListAPIView(CourseMixinAPIView, ListAPIView):
     serializer_class = CourseListSerializer
+    permission_classes = [IsAuthenticated]
 
 
 @extend_schema(

@@ -48,39 +48,3 @@ class TeacherSeminarEnroll(TimedBaseModel):
 
     def __str__(self) -> str:
         return f"{self.seminar} -> {self.teacher}"
-
-
-class SeminarStepConnection(TimedBaseModel):
-    seminar = models.ForeignKey(
-        Seminar,
-        related_name="seminar_step_connections",
-        verbose_name="Семинар",
-        on_delete=models.CASCADE,
-    )
-
-    step = models.ForeignKey(
-        Step,
-        related_name="seminar_step_connections",
-        verbose_name="Шаг",
-        on_delete=models.CASCADE,
-    )
-
-    number = models.IntegerField(
-        verbose_name="№ шага в семинаре",
-        default=1000,
-    )
-
-    is_published = models.BooleanField(
-        verbose_name="Опубликовать?",
-        default=False,
-    )
-
-    class Meta:
-        verbose_name = "Семинар -> Шаг"
-        verbose_name_plural = "3. Семинары -> Шаги"
-        ordering = ["pk"]
-        db_table = "seminar_step_connections"
-        unique_together = (
-            "seminar",
-            "step",
-        )

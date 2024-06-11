@@ -51,34 +51,3 @@ class TeacherSeminarEnrollAdmin(admin.ModelAdmin):
         "seminar",
     )
     ordering = ("id",)
-
-
-@admin.register(SeminarStepConnection)
-class SeminarStepConnectionAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "seminar",
-        "step",
-        "is_published",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = (
-        "id",
-        "seminar",
-        "step",
-    )
-    search_fields = (
-        "id",
-        "seminar",
-        "step",
-        "is_published",
-        "created_at",
-        "updated_at",
-    )
-    list_filter = (
-        "seminar",
-        "step",
-        "is_published",
-    )
-    ordering = ("id",)
