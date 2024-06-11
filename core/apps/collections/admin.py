@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from core.apps.homeworks.models import Homework, HomeworkStepConnection
+from core.apps.collections.models import Collection, CollectionStepConnection
 
 
-@admin.register(Homework)
-class HomeworkAdmin(admin.ModelAdmin):
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "author",
@@ -25,11 +25,11 @@ class HomeworkAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-@admin.register(HomeworkStepConnection)
-class HomeworkStepConnectionAdmin(admin.ModelAdmin):
+@admin.register(CollectionStepConnection)
+class CollectionStepConnectionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "homework",
+        "collection",
         "step",
         "is_published",
         "created_at",
@@ -37,19 +37,19 @@ class HomeworkStepConnectionAdmin(admin.ModelAdmin):
     )
     list_display_links = (
         "id",
-        "homework",
+        "collection",
         "step",
     )
     search_fields = (
         "id",
-        "homework",
+        "collection",
         "step",
         "is_published",
         "created_at",
         "updated_at",
     )
     list_filter = (
-        "homework",
+        "collection",
         "step",
         "is_published",
     )

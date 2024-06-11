@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.apps.homeworks.lms.views import (
+from core.apps.collections.lms.views import (
     CourseHomeworkListAPIView,
     HomeworkListAPIView,
     HomeworkRetrieveAPIView,

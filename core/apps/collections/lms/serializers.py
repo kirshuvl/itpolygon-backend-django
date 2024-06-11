@@ -1,4 +1,4 @@
-from core.apps.homeworks.models import Homework
+from core.apps.collections.models import Collection
 from core.apps.seminars.models import Seminar
 
 from core.apps.courses.lms.serializers import StepSerializer
@@ -21,7 +21,7 @@ class HomeworkSerializer(ModelSerializer):
     steps = SerializerMethodField()
 
     class Meta:
-        model = Homework
+        model = Collection
         fields = (
             "id",
             "author",
@@ -31,6 +31,6 @@ class HomeworkSerializer(ModelSerializer):
         )
 
     def get_steps(self, seminar):
-        connections = seminar.homework_step_connections.all()
+        connections = seminar.collection_step_connections.all()
         steps = [connection.step for connection in connections]
         return StepSerializer(steps, many=True).data

@@ -2,22 +2,22 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from core.apps.homeworks.models import Homework, HomeworkStepConnection
+from core.apps.collections.models import Collection, CollectionStepConnection
 from core.apps.steps.models import UserStepEnroll
 from django.db.models import Prefetch
 
-from core.apps.homeworks.lms.serializers import HomeworkSerializer
+from core.apps.collections.lms.serializers import HomeworkSerializer
 
 
 class HomeworkMixinAPIView:
     def get_queryset(self):
-        return Homework.objects.select_related(
+        return Collection.objects.select_related(
             "author",
             "seminar",
         ).prefetch_related(
             Prefetch(
                 "homework_step_connections",
-                queryset=HomeworkStepConnection.objects.prefetch_related(
+                queryset=CollectionStepConnection.objects.prefetch_related(
                     Prefetch(
                         "step__user_step_enrolls",
                         queryset=UserStepEnroll.objects.filter(user=self.request.user),

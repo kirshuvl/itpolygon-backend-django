@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.seminars.models import HomeworkSeminarConnection, Seminar, TeacherSeminarEnroll
+from core.apps.seminars.models import CollectionSeminarConnection, Seminar, TeacherSeminarEnroll
 
 
 @admin.register(Seminar)
@@ -53,29 +53,29 @@ class TeacherSeminarEnrollAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-@admin.register(HomeworkSeminarConnection)
-class HomeworkSeminarConnectionAdmin(admin.ModelAdmin):
+@admin.register(CollectionSeminarConnection)
+class CollectionSeminarConnectionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "homework",
+        "collection",
         "seminar",
         "created_at",
         "updated_at",
     )
     list_display_links = (
         "id",
-        "homework",
+        "collection",
         "seminar",
     )
     search_fields = (
         "id",
-        "homework",
+        "collection",
         "seminar",
         "created_at",
         "updated_at",
     )
     list_filter = (
-        "homework",
+        "collection",
         "seminar",
     )
     ordering = ("id",)

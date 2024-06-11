@@ -3,8 +3,6 @@ from django.db import models
 from core.apps.common.models import TimedBaseModel
 from core.apps.courses.models import Course
 from core.apps.groups.models import Group
-from core.apps.homeworks.models import Homework
-from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
 
