@@ -1,6 +1,6 @@
-from rest_framework.serializers import ModelSerializer
-
 from core.apps.courses.models import Course
+
+from rest_framework.serializers import ModelSerializer
 
 
 class CourseCommonSerializer(ModelSerializer):

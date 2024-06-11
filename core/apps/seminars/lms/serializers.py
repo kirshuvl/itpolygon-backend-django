@@ -1,8 +1,8 @@
-from core.apps.courses.serializers import CourseCommonSerializer
 from core.apps.seminars.models import Seminar
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
+from core.apps.courses.serializers import CourseCommonSerializer
 from core.apps.users.serializers import CustomUserCommonSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class SeminarsListSerializer(ModelSerializer):
