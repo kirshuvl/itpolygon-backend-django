@@ -39,9 +39,6 @@ class Step(TimedBaseModel):
         ordering = ["pk"]
         db_table = "steps"
 
-    def __str__(self) -> str:
-        return f"{self.get_type()} № {self.pk}"
-
     def get_type(self):
         if hasattr(self, "textstep"):
             return "textstep"
