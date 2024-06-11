@@ -1,9 +1,6 @@
 from django.urls import path
 
-from core.apps.courses.lms.views import (
-    CourseRetrieveAPIView,
-    LessonRetrieveAPIView,
-)
+from core.apps.courses.lms.views import CourseRetrieveAPIView, LessonRetrieveAPIView
 
 urlpatterns = [
     path(

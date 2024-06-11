@@ -1,6 +1,7 @@
 from core.apps.seminars.models import Seminar
 
 from core.apps.courses.serializers import CourseCommonSerializer
+from core.apps.steps.serializers import StepRetrieveSerializer
 from core.apps.users.serializers import CustomUserCommonSerializer
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
@@ -121,3 +122,61 @@ class HomeworkListSerializer(ModelSerializer):
                 "completed": completed_tpractical_steps,
             },
         }
+
+
+class SeminarRetrieveSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
+    steps = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teacher",
+            "course",
+            "steps",
+        )
+
+    def get_course(self, seminar):
+        course = seminar.user_seminar_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
+
+    def get_steps(self, seminar):
+        connections = (
+            seminar.user_seminar_enrolls.first().collection.colection_step_connections.all()
+        )
+        steps = [connection.step for connection in connections]
+
+        return StepRetrieveSerializer(steps, many=True).data
+
+
+class HomeworkRetrieveSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
+    steps = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teacher",
+            "course",
+            "steps",
+        )
+
+    def get_course(self, seminar):
+        course = seminar.user_homework_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
+
+    def get_steps(self, seminar):
+        connections = (
+            seminar.user_homework_enrolls.first().collection.colection_step_connections.all()
+        )
+        steps = [connection.step for connection in connections]
+
+        return StepRetrieveSerializer(steps, many=True).data
