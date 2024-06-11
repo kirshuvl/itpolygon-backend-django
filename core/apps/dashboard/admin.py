@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.apps.dashboard.models import UserCourseEnroll
+from core.apps.dashboard.models import UserCourseEnroll, UserHomeworkEnroll, UserSeminarEnroll
 
 
 @admin.register(UserCourseEnroll)
@@ -31,13 +31,14 @@ class UserCourseEnrollAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-"""
 @admin.register(UserSeminarEnroll)
+@admin.register(UserHomeworkEnroll)
 class UserSeminarEnrollAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
         "seminar",
+        "collection",
         "created_at",
         "updated_at",
     )
@@ -45,45 +46,19 @@ class UserSeminarEnrollAdmin(admin.ModelAdmin):
         "id",
         "user",
         "seminar",
+        "collection",
     )
     search_fields = (
         "id",
         "user",
         "seminar",
+        "collection",
         "created_at",
         "updated_at",
     )
     list_filter = (
         "user",
         "seminar",
+        "collection",
     )
     ordering = ("id",)
-
-
-@admin.register(UserSeminarHomeworkEnroll)
-class UserSeminarHomeworkEnrollAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "user",
-        "homework",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = (
-        "id",
-        "user",
-        "homework",
-    )
-    search_fields = (
-        "id",
-        "user",
-        "homework",
-        "created_at",
-        "updated_at",
-    )
-    list_filter = (
-        "user",
-        "homework",
-    )
-    ordering = ("id",)
-"""
