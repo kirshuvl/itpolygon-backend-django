@@ -10,8 +10,6 @@ from core.apps.steps.lms.serializers import (
     UserStepEnrollRetrieveSerializer,
 )
 
-from core.apps.steps.tasks import run_user_code
-
 
 @extend_schema(
     tags=["LMS", "Step"],
