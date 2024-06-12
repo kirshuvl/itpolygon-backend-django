@@ -374,6 +374,7 @@ class UserStepEnroll(TimedBaseModel):
         ("RP", "Шаг повторяется"),
         ("WA", "Шаг не сдан"),
         ("OK", "Шаг пройден"),
+        ("WT", "Шаг на проверке"),
     ]
     status = models.CharField(
         verbose_name="Статус",
