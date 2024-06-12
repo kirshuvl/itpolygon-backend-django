@@ -7,12 +7,14 @@ from core.apps.steps.models import QuestionStep, Step, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
-    UserAnswerForProblemStepRetrieveSerializer,
     UserAnswerForQuestionStepCreateSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
 )
-from core.apps.steps.serializers import UserAnswerForQuestionStepCommonSerializer
+from core.apps.steps.serializers import (
+    UserAnswerForProblemStepCommonSerializer,
+    UserAnswerForQuestionStepCommonSerializer,
+)
 from core.apps.steps.tasks import run_user_code
 
 
@@ -112,16 +114,18 @@ class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        run_user_code.delay(serializer.instance.id)
+
         s = serializer.instance.problem
         enroll, _ = UserStepEnroll.objects.get_or_create(user=self.request.user, step=s)
         enroll.status = "WT"
         enroll.save()
 
         headers = self.get_success_headers(serializer.data)
+
+        run_user_code.delay(serializer.instance.id)
         return Response(
             {
-                "answer": UserAnswerForProblemStepRetrieveSerializer(serializer.instance).data,
+                "answer": UserAnswerForProblemStepCommonSerializer(serializer.instance).data,
                 "userEnroll": UserStepEnrollRetrieveSerializer(enroll).data,
             },
             status=status.HTTP_201_CREATED,

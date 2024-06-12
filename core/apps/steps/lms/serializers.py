@@ -4,7 +4,7 @@ from core.apps.steps.models import (
     UserStepEnroll,
 )
 
-from rest_framework.serializers import ModelSerializer, BooleanField
+from rest_framework.serializers import ModelSerializer
 
 
 class UserStepEnrollCreateSerializer(ModelSerializer):
@@ -42,19 +42,4 @@ class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
             "id",
             "code",
             "problem",
-        )
-
-
-class UserAnswerForProblemStepRetrieveSerializer(ModelSerializer):
-    class Meta:
-        model = UserAnswerForProblemStep
-        fields = (
-            "id",
-            "code",
-            "problem",
-            "language",
-            "verdict",
-            "cputime",
-            "first_fail_test",
-            "points",
         )

@@ -3,6 +3,7 @@ from core.apps.steps.models import (
     QuestionStep,
     Step,
     TextStep,
+    UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
     UserStepEnroll,
     VideoStep,
@@ -80,6 +81,8 @@ class QuestionStepSerializer(ModelSerializer):
 
 
 class ProblemStepSerializer(ModelSerializer):
+    userProblems = SerializerMethodField()
+
     class Meta:
         model = ProblemStep
         fields = (
@@ -88,7 +91,14 @@ class ProblemStepSerializer(ModelSerializer):
             "input",
             "output",
             "notes",
+            "userProblems",
         )
+
+    def get_userProblems(self, step):
+        user_answers = step.codes.all()
+        return UserAnswerForProblemStepCommonSerializer(
+            user_answers, context=self.context, many=True
+        ).data
 
 
 class StepRetrieveSerializer(StepBaseSerializer):
@@ -119,4 +129,15 @@ class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
             "question",
             "answer",
             "is_correct",
+        )
+
+
+class UserAnswerForProblemStepCommonSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForProblemStep
+        fields = (
+            "id",
+            "language",
+            "verdict",
+            "cputime",
         )

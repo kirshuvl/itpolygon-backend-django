@@ -81,14 +81,11 @@ def run_user_code(user_answer_pk):
     user_answer.first_fail_test = first_fail
 
     step_enroll = UserStepEnroll.objects.get(user=user_answer.user, step=user_answer.problem)
-    if step_enroll.status == "PR":
+    if step_enroll.status != "OK":
         if verdict == "OK":
             step_enroll.status = "OK"
         else:
             step_enroll.status = "WA"
-    else:
-        if verdict == "OK":
-            step_enroll.status = "OK"
 
     UserAnswerForTestForProblemStep.objects.bulk_create(data)
     user_answer.save()
