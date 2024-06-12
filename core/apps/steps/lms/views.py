@@ -7,10 +7,10 @@ from core.apps.steps.models import QuestionStep, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForQuestionStepCreateSerializer,
-    UserAnswerForQuestionStepRetrieveSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
 )
+from core.apps.steps.serializers import UserAnswerForQuestionStepCommonSerializer
 
 
 @extend_schema(
@@ -80,7 +80,7 @@ class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
             enroll.status = "WA"
         enroll.save()
 
-        answer_data = UserAnswerForQuestionStepRetrieveSerializer(serializer.instance).data
+        answer_data = UserAnswerForQuestionStepCommonSerializer(serializer.instance).data
         enroll_data = UserStepEnrollRetrieveSerializer(enroll).data
 
         headers = self.get_success_headers(serializer.data)

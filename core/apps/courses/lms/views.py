@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from core.apps.courses.models import Course, Lesson, LessonStepConnection, Topic
-from core.apps.steps.models import UserStepEnroll
+from core.apps.steps.models import UserAnswerForQuestionStep, UserStepEnroll
 from django.db.models import Prefetch
 
 from core.apps.courses.lms.serializers import (
@@ -94,6 +94,12 @@ class LessonRetrieveAPIView(RetrieveAPIView):
                     "step__videostep",
                     "step__questionstep",
                     "step__problemstep",
+                )
+                .prefetch_related(
+                    Prefetch(
+                        "step__question_answers",
+                        queryset=UserAnswerForQuestionStep.objects.filter(user=self.request.user),
+                    )
                 )
                 .order_by("number"),
             )

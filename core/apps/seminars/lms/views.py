@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from core.apps.collections.models import CollectionStepConnection
 from core.apps.dashboard.models import UserHomeworkEnroll, UserSeminarEnroll
 from core.apps.seminars.models import Seminar
-from core.apps.steps.models import UserStepEnroll
+from core.apps.steps.models import UserAnswerForQuestionStep, UserStepEnroll
 from django.db.models import Prefetch
 
 from core.apps.seminars.lms.serializers import (
@@ -89,6 +89,14 @@ class HomeworkListAPIView(ListAPIView):
                         "step__questionstep",
                         "step__problemstep",
                     )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__question_answers",
+                            queryset=UserAnswerForQuestionStep.objects.filter(
+                                user=self.request.user
+                            ),
+                        )
+                    )
                     .filter(is_published=True)
                     .order_by("number"),
                 ),
@@ -130,6 +138,14 @@ class SeminarRetrieveAPIView(RetrieveAPIView):
                         "step__questionstep",
                         "step__problemstep",
                     )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__question_answers",
+                            queryset=UserAnswerForQuestionStep.objects.filter(
+                                user=self.request.user
+                            ),
+                        )
+                    )
                     .filter(is_published=True)
                     .order_by("number"),
                 ),
@@ -170,6 +186,14 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                         "step__videostep",
                         "step__questionstep",
                         "step__problemstep",
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__question_answers",
+                            queryset=UserAnswerForQuestionStep.objects.filter(
+                                user=self.request.user
+                            ),
+                        )
                     )
                     .filter(is_published=True)
                     .order_by("number"),

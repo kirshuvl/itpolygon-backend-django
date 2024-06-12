@@ -27,15 +27,3 @@ class UserAnswerForQuestionStepCreateSerializer(ModelSerializer):
             "question",
             "answer",
         )
-
-
-class UserAnswerForQuestionStepRetrieveSerializer(ModelSerializer):
-    class Meta:
-        model = UserAnswerForQuestionStep
-        fields = (
-            "id",
-            "user",
-            "question",
-            "answer",
-            "is_correct",
-        )
