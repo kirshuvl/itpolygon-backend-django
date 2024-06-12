@@ -3,12 +3,20 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.apps.steps.models import UserStepEnroll
+from core.apps.steps.models import QuestionStep, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
+    UserAnswerForProblemStepCreateSerializer,
+    UserAnswerForQuestionStepCreateSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
 )
+from core.apps.steps.serializers import (
+    UserAnswerForProblemStepCommonSerializer,
+    UserAnswerForQuestionStepCommonSerializer,
+)
+
+from core.apps.steps.tasks import run_user_code
 
 
 @extend_schema(
@@ -49,3 +57,78 @@ class UserStepEnrollsUpdateAPIVIew(RetrieveAPIView, UpdateAPIView):
 
     def get_queryset(self):
         return UserStepEnroll.objects.all()
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Answer For Question Step Create",
+)
+class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
+    serializer_class = UserAnswerForQuestionStepCreateSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        answer = request.data.copy()
+        question = QuestionStep.objects.get(pk=request.data["question"])
+        user_answer = request.data["answer"]
+        answer["is_correct"] = user_answer == question.answer
+
+        serializer = self.get_serializer(data=answer)
+        serializer.is_valid(raise_exception=True)
+        print(serializer)
+        self.perform_create(serializer)
+        enroll = UserStepEnroll.objects.get(user=self.request.user, step=question)
+        if user_answer == question.answer:
+            enroll.status = "OK"
+        elif user_answer != question.answer and enroll.status != "OK":
+            enroll.status = "WA"
+        enroll.save()
+
+        answer_data = UserAnswerForQuestionStepCommonSerializer(serializer.instance).data
+        enroll_data = UserStepEnrollRetrieveSerializer(enroll).data
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {
+                "answer": answer_data,
+                "userEnroll": enroll_data,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Answer For Problem Step Create",
+)
+class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
+    serializer_class = UserAnswerForProblemStepCreateSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        s = serializer.instance.problem
+        enroll, _ = UserStepEnroll.objects.get_or_create(user=self.request.user, step=s)
+        enroll.status = "WT"
+        enroll.save()
+
+        headers = self.get_success_headers(serializer.data)
+
+        run_user_code.delay(serializer.instance.id)
+        return Response(
+            {
+                "answer": UserAnswerForProblemStepCommonSerializer(serializer.instance).data,
+                "userEnroll": UserStepEnrollRetrieveSerializer(enroll).data,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
