@@ -1,8 +1,7 @@
 from core.apps.courses.models import Course, Lesson, Topic
 
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-
 from core.apps.steps.serializers import StepRetrieveSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class CourseListSerializer(ModelSerializer):
