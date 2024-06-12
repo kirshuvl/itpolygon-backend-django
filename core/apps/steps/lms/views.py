@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.apps.steps.models import QuestionStep, Step, UserStepEnroll
+from core.apps.steps.models import QuestionStep, UserStepEnroll
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
@@ -15,6 +15,7 @@ from core.apps.steps.serializers import (
     UserAnswerForProblemStepCommonSerializer,
     UserAnswerForQuestionStepCommonSerializer,
 )
+
 from core.apps.steps.tasks import run_user_code
 
 
