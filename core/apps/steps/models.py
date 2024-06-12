@@ -39,9 +39,6 @@ class Step(TimedBaseModel):
         ordering = ["pk"]
         db_table = "steps"
 
-    def __str__(self) -> str:
-        return f"{self.get_type()} № {self.pk}"
-
     def get_type(self):
         if hasattr(self, "textstep"):
             return "textstep"
@@ -51,7 +48,17 @@ class Step(TimedBaseModel):
             return "questionstep"
         elif hasattr(self, "problemstep"):
             return "problemstep"
-        return "None"
+        return None
+
+    def __str__(self):
+        data = {
+            "textstep": "[Шаг][Текст]",
+            "videostep": "[Шаг][Видео]",
+            "questionstep": "[Шаг][Вопрос]",
+            "problemstep": "[Шаг][Задача]",
+            None: "[Шаг][None]",
+        }
+        return f"{data[self.get_type()]} № {self.pk}"
 
 
 class TextStep(Step):
