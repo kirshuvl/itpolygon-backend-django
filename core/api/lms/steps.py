@@ -1,11 +1,6 @@
 from django.urls import path
 
-from core.apps.steps.lms.views import (
-    UserAnswerForProblemStepCreateAPIView,
-    UserAnswerForQuestionStepCreateAPIView,
-    UserStepEnrollCreateAPIView,
-    UserStepEnrollsUpdateAPIVIew,
-)
+from core.apps.steps.lms.views import UserStepEnrollCreateAPIView, UserStepEnrollsUpdateAPIVIew
 
 urlpatterns = [
     path(
@@ -15,13 +10,5 @@ urlpatterns = [
     path(
         "steps/enrolls/<int:enrollId>/",
         UserStepEnrollsUpdateAPIVIew.as_view(),
-    ),
-    path(
-        "steps/answers/",
-        UserAnswerForQuestionStepCreateAPIView.as_view(),
-    ),
-    path(
-        "steps/codes/",
-        UserAnswerForProblemStepCreateAPIView.as_view(),
     ),
 ]

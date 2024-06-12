@@ -1,70 +1,132 @@
-from core.apps.courses.models import Course
 from core.apps.seminars.models import Seminar
-from core.apps.users.models import CustomUser
 
-from core.apps.courses.lms.serializers import StepSerializer
-from rest_framework.serializers import CharField, ModelSerializer, SerializerMethodField
-
-
-class TeacherRetrieveSerializer(ModelSerializer):
-    firstName = CharField(source="first_name")
-    lastName = CharField(source="last_name")
-
-    class Meta:
-        model = CustomUser
-        fields = (
-            "id",
-            "firstName",
-            "lastName",
-        )
-
-
-class CourseSerializer(ModelSerializer):
-
-    icon = SerializerMethodField()
-
-    class Meta:
-        model = Course
-        fields = (
-            "id",
-            "title",
-            "icon",
-        )
-
-    def get_icon(self, instance):
-        if instance.icon and instance.icon.url:
-            return self.context["request"].build_absolute_uri(instance.icon.url)
-        return None
+from core.apps.courses.serializers import CourseCommonSerializer
+from core.apps.steps.serializers import StepRetrieveSerializer
+from core.apps.users.serializers import CustomUserCommonSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 
 class SeminarsListSerializer(ModelSerializer):
-    teachers = SerializerMethodField()
+    teacher = CustomUserCommonSerializer()
     course = SerializerMethodField()
+    userStatistics = SerializerMethodField()
 
     class Meta:
         model = Seminar
         fields = (
             "id",
             "date",
-            "teachers",
+            "teacher",
             "course",
+            "userStatistics",
         )
 
-    def get_teachers(self, seminar):
-        enrolls = seminar.teacher_seminar_enrolls.all()
-        teachers = [enroll.teacher for enroll in enrolls]
-        if teachers:
-            return TeacherRetrieveSerializer(teachers, many=True).data
-        return None
+    def get_course(self, seminar):
+        course = seminar.user_seminar_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
+
+    def get_userStatistics(self, seminar):
+
+        total_theoretical_steps = 0
+        completed_theoretical_steps = 0
+        total_practical_steps = 0
+        completed_tpractical_steps = 0
+        connections = (
+            seminar.user_seminar_enrolls.first().collection.colection_step_connections.all()
+        )
+        steps = [connection.step for connection in connections]
+
+        for step in steps:
+            step_type = step.get_type()
+            user_enroll = step.user_step_enrolls.first()
+            if step_type == "textstep" or step_type == "videostep":
+                total_theoretical_steps += 1
+                if user_enroll and user_enroll.status == "OK":
+                    completed_theoretical_steps += 1
+            else:
+                total_practical_steps += 1
+                if user_enroll and user_enroll.status == "OK":
+                    completed_tpractical_steps += 1
+        total_steps = total_theoretical_steps + total_practical_steps
+        completed_steps = completed_theoretical_steps + completed_tpractical_steps
+
+        return {
+            "totalSteps": total_steps,
+            "completedSteps": completed_steps,
+            "theoreticalSteps": {
+                "total": total_theoretical_steps,
+                "completed": completed_theoretical_steps,
+            },
+            "practicalSteps": {
+                "total": total_practical_steps,
+                "completed": completed_tpractical_steps,
+            },
+        }
+
+
+class HomeworkListSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
+    userStatistics = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teacher",
+            "course",
+            "userStatistics",
+        )
 
     def get_course(self, seminar):
-        q = seminar.user_seminar_enrolls.all()
-        courses = [enroll.course for enroll in q][0]
-        return CourseSerializer(courses, context={"request": self.context["request"]}).data
+        course = seminar.user_homework_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
+
+    def get_userStatistics(self, seminar):
+
+        total_theoretical_steps = 0
+        completed_theoretical_steps = 0
+        total_practical_steps = 0
+        completed_tpractical_steps = 0
+        connections = (
+            seminar.user_homework_enrolls.first().collection.colection_step_connections.all()
+        )
+        steps = [connection.step for connection in connections]
+
+        for step in steps:
+            step_type = step.get_type()
+            user_enroll = step.user_step_enrolls.first()
+            if step_type == "textstep" or step_type == "videostep":
+                total_theoretical_steps += 1
+                if user_enroll and user_enroll.status == "OK":
+                    completed_theoretical_steps += 1
+            else:
+                total_practical_steps += 1
+                if user_enroll and user_enroll.status == "OK":
+                    completed_tpractical_steps += 1
+        total_steps = total_theoretical_steps + total_practical_steps
+        completed_steps = completed_theoretical_steps + completed_tpractical_steps
+
+        return {
+            "totalSteps": total_steps,
+            "completedSteps": completed_steps,
+            "theoreticalSteps": {
+                "total": total_theoretical_steps,
+                "completed": completed_theoretical_steps,
+            },
+            "practicalSteps": {
+                "total": total_practical_steps,
+                "completed": completed_tpractical_steps,
+            },
+        }
 
 
-class SeminarsRetrieveSerializer(ModelSerializer):
-    teachers = SerializerMethodField()
+class SeminarRetrieveSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
     steps = SerializerMethodField()
 
     class Meta:
@@ -72,18 +134,49 @@ class SeminarsRetrieveSerializer(ModelSerializer):
         fields = (
             "id",
             "date",
+            "teacher",
+            "course",
             "steps",
-            "teachers",
         )
 
-    def get_teachers(self, seminar):
-        enrolls = seminar.teacher_seminar_enrolls.all()
-        teachers = [enroll.teacher for enroll in enrolls]
-        if teachers:
-            return TeacherRetrieveSerializer(teachers, many=True).data
-        return None
+    def get_course(self, seminar):
+        course = seminar.user_seminar_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
 
     def get_steps(self, seminar):
-        connections = seminar.seminar_step_connections.all()
+        connections = (
+            seminar.user_seminar_enrolls.first().collection.colection_step_connections.all()
+        )
         steps = [connection.step for connection in connections]
-        return StepSerializer(steps, many=True).data
+
+        return StepRetrieveSerializer(steps, many=True).data
+
+
+class HomeworkRetrieveSerializer(ModelSerializer):
+    teacher = CustomUserCommonSerializer()
+    course = SerializerMethodField()
+    steps = SerializerMethodField()
+
+    class Meta:
+        model = Seminar
+        fields = (
+            "id",
+            "date",
+            "teacher",
+            "course",
+            "steps",
+        )
+
+    def get_course(self, seminar):
+        course = seminar.user_homework_enrolls.first().collection.course
+
+        return CourseCommonSerializer(course, context=self.context).data
+
+    def get_steps(self, seminar):
+        connections = (
+            seminar.user_homework_enrolls.first().collection.colection_step_connections.all()
+        )
+        steps = [connection.step for connection in connections]
+
+        return StepRetrieveSerializer(steps, many=True).data

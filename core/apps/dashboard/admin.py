@@ -32,11 +32,13 @@ class UserCourseEnrollAdmin(admin.ModelAdmin):
 
 
 @admin.register(UserSeminarEnroll)
+@admin.register(UserHomeworkEnroll)
 class UserSeminarEnrollAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
         "seminar",
+        "collection",
         "created_at",
         "updated_at",
     )
@@ -44,44 +46,19 @@ class UserSeminarEnrollAdmin(admin.ModelAdmin):
         "id",
         "user",
         "seminar",
+        "collection",
     )
     search_fields = (
         "id",
         "user",
         "seminar",
+        "collection",
         "created_at",
         "updated_at",
     )
     list_filter = (
         "user",
         "seminar",
-    )
-    ordering = ("id",)
-
-
-@admin.register(UserHomeworkEnroll)
-class UserHomeworkEnrollAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "user",
-        "homework",
-        "created_at",
-        "updated_at",
-    )
-    list_display_links = (
-        "id",
-        "user",
-        "homework",
-    )
-    search_fields = (
-        "id",
-        "user",
-        "homework",
-        "created_at",
-        "updated_at",
-    )
-    list_filter = (
-        "user",
-        "homework",
+        "collection",
     )
     ordering = ("id",)
