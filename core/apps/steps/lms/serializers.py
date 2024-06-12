@@ -1,4 +1,8 @@
-from core.apps.steps.models import UserStepEnroll
+from core.apps.steps.models import (
+    UserAnswerForProblemStep,
+    UserAnswerForQuestionStep,
+    UserStepEnroll,
+)
 
 from rest_framework.serializers import ModelSerializer
 
@@ -16,4 +20,26 @@ class UserStepEnrollRetrieveSerializer(ModelSerializer):
         fields = (
             "id",
             "status",
+        )
+
+
+class UserAnswerForQuestionStepCreateSerializer(ModelSerializer):
+
+    class Meta:
+        model = UserAnswerForQuestionStep
+        fields = (
+            "id",
+            "question",
+            "answer",
+            "is_correct",
+        )
+
+
+class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForProblemStep
+        fields = (
+            "id",
+            "code",
+            "problem",
         )

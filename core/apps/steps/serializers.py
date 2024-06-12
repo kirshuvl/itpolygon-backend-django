@@ -3,6 +3,7 @@ from core.apps.steps.models import (
     QuestionStep,
     Step,
     TextStep,
+    UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
     UserStepEnroll,
     VideoStep,
@@ -62,15 +63,26 @@ class VideoStepSerializer(ModelSerializer):
 
 
 class QuestionStepSerializer(ModelSerializer):
+    userAnswers = SerializerMethodField()
+
     class Meta:
         model = QuestionStep
         fields = (
             "id",
             "text",
+            "userAnswers",
         )
+
+    def get_userAnswers(self, step):
+        user_answers = step.question_answers.all()
+        return UserAnswerForQuestionStepCommonSerializer(
+            user_answers, context=self.context, many=True
+        ).data
 
 
 class ProblemStepSerializer(ModelSerializer):
+    userProblems = SerializerMethodField()
+
     class Meta:
         model = ProblemStep
         fields = (
@@ -79,19 +91,14 @@ class ProblemStepSerializer(ModelSerializer):
             "input",
             "output",
             "notes",
+            "userProblems",
         )
 
-
-class QuestionAnswerSerializer(ModelSerializer):
-    class Meta:
-        model = UserAnswerForQuestionStep
-        fields = (
-            "id",
-            "user",
-            "answer",
-            "question",
-            "is_correct",
-        )
+    def get_userProblems(self, step):
+        user_answers = step.codes.all()
+        return UserAnswerForProblemStepCommonSerializer(
+            user_answers, context=self.context, many=True
+        ).data
 
 
 class StepRetrieveSerializer(StepBaseSerializer):
@@ -111,3 +118,26 @@ class StepRetrieveSerializer(StepBaseSerializer):
             return QuestionStepSerializer(step.questionstep).data
         elif step_type == "problemstep":
             return ProblemStepSerializer(step.problemstep).data
+
+
+class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForQuestionStep
+        fields = (
+            "id",
+            "user",
+            "question",
+            "answer",
+            "is_correct",
+        )
+
+
+class UserAnswerForProblemStepCommonSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForProblemStep
+        fields = (
+            "id",
+            "language",
+            "verdict",
+            "cputime",
+        )
