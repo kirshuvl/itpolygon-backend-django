@@ -26,4 +26,5 @@ class UserAnswerForQuestionStepCreateSerializer(ModelSerializer):
             "id",
             "question",
             "answer",
+            "is_correct",
         )
