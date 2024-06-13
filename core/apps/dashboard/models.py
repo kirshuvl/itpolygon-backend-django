@@ -3,7 +3,6 @@ from django.db import models
 from core.apps.collections.models import Collection
 from core.apps.common.models import TimedBaseModel
 from core.apps.courses.models import Course
-from core.apps.groups.models import Group
 from core.apps.seminars.models import Seminar
 from core.apps.users.models import CustomUser
 
@@ -20,13 +19,6 @@ class UserCourseEnroll(TimedBaseModel):
         Course,
         related_name="user_course_enrolls",
         verbose_name="Курс",
-        on_delete=models.CASCADE,
-    )
-
-    group = models.ForeignKey(
-        Group,
-        related_name="user_course_enrolls",
-        verbose_name="Группа",
         on_delete=models.CASCADE,
     )
 

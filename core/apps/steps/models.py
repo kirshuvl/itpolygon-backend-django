@@ -110,14 +110,14 @@ class QuestionStep(Step):
 class UserAnswerForQuestionStep(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
-        related_name="question_answers",
+        related_name="user_answer_for_question_steps",
         verbose_name="Пользователь",
         on_delete=models.PROTECT,
     )
 
     question = models.ForeignKey(
-        Step,
-        related_name="question_answers",
+        QuestionStep,
+        related_name="user_answer_for_question_steps",
         verbose_name="Вопрос",
         on_delete=models.CASCADE,
     )
@@ -133,7 +133,7 @@ class UserAnswerForQuestionStep(TimedBaseModel):
         verbose_name = "Шаг [Вопрос][Ответ]"
         verbose_name_plural = "4. Шаги [Вопрос] -> [Ответ]"
         ordering = ["pk"]
-        db_table = "user_answers_for_question_steps"
+        db_table = "user_answer_for_question_steps"
 
 
 class ProblemStep(Step):
@@ -175,7 +175,7 @@ class ProblemStep(Step):
         default=4,
     )
 
-    cputime = models.IntegerField(
+    cpu_time = models.IntegerField(
         verbose_name="CPU Time",
         default=1,
     )
@@ -227,19 +227,21 @@ class TestForProblemStep(TimedBaseModel):
 
 
 class UserAnswerForProblemStep(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_answer_for_problem_steps",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
     code = models.TextField(
         verbose_name="Код пользователя",
         max_length=10000,
     )
-    user = models.ForeignKey(
-        CustomUser,
-        related_name="codes",
-        verbose_name="Пользователь",
-        on_delete=models.CASCADE,
-    )
+
     problem = models.ForeignKey(
         ProblemStep,
-        related_name="codes",
+        related_name="user_answer_for_problem_steps",
         verbose_name="Задача",
         on_delete=models.CASCADE,
     )
@@ -269,7 +271,7 @@ class UserAnswerForProblemStep(TimedBaseModel):
         choices=VERDICT_CHOICES,
         default="PR",
     )
-    cputime = models.FloatField(
+    cpu_time = models.FloatField(
         verbose_name="CPU Time",
         null=True,
     )
@@ -291,19 +293,19 @@ class UserAnswerForProblemStep(TimedBaseModel):
 class UserAnswerForTestForProblemStep(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Пользователь",
         on_delete=models.CASCADE,
     )
     code = models.ForeignKey(
         UserAnswerForProblemStep,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Решение",
         on_delete=models.CASCADE,
     )
     test = models.ForeignKey(
         TestForProblemStep,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Тест",
         on_delete=models.CASCADE,
     )

@@ -127,14 +127,14 @@ class LessonStepConnection(TimedBaseModel):
         on_delete=models.CASCADE,
     )
 
-    number = models.IntegerField(
-        verbose_name="№ шага в уроке",
-        default=1000,
-    )
-
     is_published = models.BooleanField(
         verbose_name="Опубликовать?",
         default=False,
+    )
+
+    number = models.IntegerField(
+        verbose_name="№ шага в уроке",
+        default=1000,
     )
 
     class Meta:
@@ -174,4 +174,4 @@ class AuthorCourseEnroll(TimedBaseModel):
         db_table = "author_course_enrolls"
 
     def __str__(self) -> str:
-        return f"{self.course} -> {self.user}"
+        return f"{self.course} -> {self.author}"
