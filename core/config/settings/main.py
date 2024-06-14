@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "core.apps.seminars.apps.SeminarsConfig",
     "core.apps.dashboard.apps.DashboardConfig",
     "core.apps.collections.apps.CollectionsConfig",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 

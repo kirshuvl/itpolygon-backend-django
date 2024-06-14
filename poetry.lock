@@ -235,6 +235,14 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-cleanup"
+version = "8.1.0"
+description = "Deletes old files."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "django-cors-headers"
 version = "4.3.1"
 description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
@@ -841,7 +849,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "51685549d43fc5be2df9fb1387344d8d9a22f5a0396c98366045b3f4a2b48b8e"
+content-hash = "fac2ab28f62aef0035423e3f352733c319ed37434a88ddde7aae39c3fab6272e"
 
 [metadata.files]
 amqp = []
@@ -861,6 +869,7 @@ click-repl = []
 colorama = []
 distlib = []
 django = []
+django-cleanup = []
 django-cors-headers = []
 django-debug-toolbar = []
 djangorestframework = []
