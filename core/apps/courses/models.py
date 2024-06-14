@@ -129,7 +129,7 @@ class LessonStepConnection(TimedBaseModel):
 
     is_published = models.BooleanField(
         verbose_name="Опубликовать?",
-        default=False,
+        default=True,
     )
 
     number = models.IntegerField(
@@ -145,6 +145,7 @@ class LessonStepConnection(TimedBaseModel):
         unique_together = (
             "lesson",
             "step",
+            "number",
         )
 
 

@@ -11,15 +11,19 @@ class SeminarAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "date",
     )
+
     search_fields = (
         "id",
         "date",
         "created_at",
         "updated_at",
     )
+
     list_filter = ("date",)
+
     ordering = ("id",)

@@ -29,7 +29,6 @@ class UserCourseEnroll(TimedBaseModel):
         unique_together = (
             "user",
             "course",
-            "group",
         )
         db_table = "user_course_enrolls"
 
