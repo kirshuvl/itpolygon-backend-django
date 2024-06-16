@@ -13,7 +13,7 @@ class Course(TimedBaseModel):
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать",
+        verbose_name="Опубликовать курс",
         default=True,
     )
 
@@ -45,7 +45,7 @@ class Topic(TimedBaseModel):
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать",
+        verbose_name="Опубликовать тему",
         default=True,
     )
 
@@ -82,7 +82,7 @@ class Lesson(TimedBaseModel):
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать",
+        verbose_name="Опубликовать урок",
         default=True,
     )
 
@@ -128,13 +128,18 @@ class LessonStepConnection(TimedBaseModel):
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать?",
+        verbose_name="Опубликовать шаг в уроке",
         default=True,
     )
 
     number = models.IntegerField(
         verbose_name="№ шага в уроке",
         default=1000,
+    )
+
+    attempts = models.IntegerField(
+        verbose_name="Количество попыток",
+        default=-1,
     )
 
     class Meta:

@@ -27,7 +27,7 @@ class Step(TimedBaseModel):
     )
 
     is_published = models.BooleanField(
-        verbose_name="Опубликовать",
+        verbose_name="Опубликовать шаг",
         default=True,
     )
 
@@ -92,11 +92,11 @@ class VideoStep(Step):
 
 class QuestionStep(Step):
     text = models.JSONField(
-        verbose_name="Текст",
+        verbose_name="Текст вопроса",
     )
 
     answer = models.CharField(
-        verbose_name="Ответ",
+        verbose_name="Ответ на вопрос",
     )
 
     objects = DefaultStepManager()
@@ -140,19 +140,19 @@ class UserAnswerForQuestionStep(TimedBaseModel):
 
 class ProblemStep(Step):
     text = models.JSONField(
-        verbose_name="Текст",
+        verbose_name="Легенда задачи",
     )
 
     input = models.JSONField(
-        verbose_name="Текст",
+        verbose_name="Входные данные",
     )
 
     output = models.JSONField(
-        verbose_name="Текст",
+        verbose_name="Выходные данные",
     )
 
     notes = models.JSONField(
-        verbose_name="Текст",
+        verbose_name="Примечания",
     )
 
     start_code = models.TextField(
@@ -163,27 +163,27 @@ class ProblemStep(Step):
     )
 
     first_sample = models.IntegerField(
-        verbose_name="Первый сэмпл",
+        verbose_name="Номер первого сэмпла",
         default=1,
     )
 
     last_sample = models.IntegerField(
-        verbose_name="Последний сэмпл",
+        verbose_name="Номер последнего сэмпла",
         default=3,
     )
 
     first_test = models.IntegerField(
-        verbose_name="Первый тест",
-        default=4,
+        verbose_name="Номер первого теста",
+        default=1,
     )
 
     cpu_time = models.IntegerField(
-        verbose_name="CPU Time",
+        verbose_name="Ограничение по времени",
         default=1,
     )
 
     memory = models.IntegerField(
-        verbose_name="Memory",
+        verbose_name="Ограничение по памяти",
         default=64,
     )
 
@@ -279,7 +279,7 @@ class UserAnswerForProblemStep(TimedBaseModel):
     )
 
     cpu_time = models.FloatField(
-        verbose_name="CPU Time",
+        verbose_name="Затраченное время",
         null=True,
     )
 
@@ -310,7 +310,7 @@ class UserAnswerForTestForProblemStep(TimedBaseModel):
     code = models.ForeignKey(
         UserAnswerForProblemStep,
         related_name="user_answer_for_test_for_problem_steps",
-        verbose_name="Решение",
+        verbose_name="Решение пользователя",
         on_delete=models.CASCADE,
     )
 

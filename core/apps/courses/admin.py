@@ -23,10 +23,8 @@ class CourseAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    list_filter = (
-        "title",
-        "is_published",
-    )
+    list_filter = ("is_published",)
+
     ordering = ("id",)
 
 
