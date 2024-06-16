@@ -34,14 +34,14 @@ class Collection(TimedBaseModel):
 class CollectionStepConnection(TimedBaseModel):
     collection = models.ForeignKey(
         Collection,
-        related_name="colection_step_connections",
+        related_name="collection_step_connections",
         verbose_name="Коллекция заданий",
         on_delete=models.CASCADE,
     )
 
     step = models.ForeignKey(
         Step,
-        related_name="colection_step_connections",
+        related_name="collection_step_connections",
         verbose_name="Шаг",
         on_delete=models.CASCADE,
     )
@@ -60,8 +60,11 @@ class CollectionStepConnection(TimedBaseModel):
         verbose_name = "Коллекция заданий -> Шаг"
         verbose_name_plural = "2. Коллекции заданий -> Шаги"
         ordering = ["pk"]
-        db_table = "colection_step_connections"
+        db_table = "collection_step_connections"
         unique_together = (
             "collection",
             "step",
         )
+
+    def __str__(self) -> str:
+        return f"{self.collection} -> {self.step}"

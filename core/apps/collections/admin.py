@@ -11,17 +11,21 @@ class CollectionAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "author",
     )
+
     search_fields = (
         "id",
         "author",
         "created_at",
         "updated_at",
     )
+
     list_filter = ("author",)
+
     ordering = ("id",)
 
 
@@ -35,11 +39,13 @@ class CollectionStepConnectionAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "collection",
         "step",
     )
+
     search_fields = (
         "id",
         "collection",
@@ -48,9 +54,11 @@ class CollectionStepConnectionAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_filter = (
         "collection",
         "step",
         "is_published",
     )
+
     ordering = ("id",)

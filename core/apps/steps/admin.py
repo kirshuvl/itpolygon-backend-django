@@ -27,10 +27,12 @@ class StepAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "title",
     )
+
     search_fields = (
         "id",
         "title",
@@ -38,10 +40,12 @@ class StepAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_filter = (
         "title",
         "is_published",
     )
+
     ordering = ("id",)
 
 
@@ -55,12 +59,14 @@ class UserAnswerForQuestionStepAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "user",
         "question",
         "answer",
     )
+
     search_fields = (
         "id",
         "user",
@@ -68,10 +74,12 @@ class UserAnswerForQuestionStepAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_filter = (
         "user",
         "question",
     )
+
     ordering = ("id",)
 
 
@@ -84,6 +92,7 @@ class TestForProblemStepAdmin(admin.ModelAdmin):
         "input",
         "output",
     )
+
     list_display_links = (
         "id",
         "problem",
@@ -91,6 +100,7 @@ class TestForProblemStepAdmin(admin.ModelAdmin):
         "input",
         "output",
     )
+
     search_fields = (
         "id",
         "problem",
@@ -98,7 +108,9 @@ class TestForProblemStepAdmin(admin.ModelAdmin):
         "input",
         "output",
     )
+
     list_filter = ("problem",)
+
     ordering = ("id",)
 
 
@@ -109,11 +121,13 @@ class UserAnswerForProblemStepAdmin(admin.ModelAdmin):
         "user",
         "verdict",
     )
+
     list_display_links = (
         "id",
         "user",
         "verdict",
     )
+
     search_fields = (
         "id",
         "user",
@@ -131,11 +145,13 @@ class UserStepEnrollAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "step",
         "user",
     )
+
     search_fields = (
         "id",
         "step",
@@ -144,10 +160,12 @@ class UserStepEnrollAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
+
     list_filter = (
         "step",
         "user",
     )
+
     ordering = ("id",)
 
 
@@ -158,11 +176,13 @@ class UserAnswerForTestForProblemStepAdmin(admin.ModelAdmin):
         "user",
         "verdict",
     )
+
     list_display_links = (
         "id",
         "user",
         "verdict",
     )
+
     search_fields = (
         "id",
         "user",

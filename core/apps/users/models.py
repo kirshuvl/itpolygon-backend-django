@@ -9,6 +9,7 @@ from core.apps.users.managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin, TimedBaseModel):
     username = None
+
     first_name = models.CharField(
         verbose_name="Имя",
         max_length=30,
@@ -25,7 +26,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, TimedBaseModel):
         error_messages={"unique": "Пользователь с такой почтой уже зарегистрировался"},
     )
 
-    icon = models.ImageField(verbose_name="Фотография профиля", upload_to="icon/user/", blank=True)
+    icon = models.ImageField(
+        verbose_name="Фотография профиля",
+        upload_to="icon/user/",
+        blank=True,
+    )
 
     is_staff = models.BooleanField(
         _("staff status"),
@@ -41,6 +46,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, TimedBaseModel):
         ("teacher", "Преподаватель"),
         ("student", "Студент"),
     ]
+
     status = models.CharField(
         verbose_name="Статус",
         max_length=7,
@@ -56,7 +62,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, TimedBaseModel):
         verbose_name = "Пользователь [Сайт]"
         verbose_name_plural = "1. Пользователи [Сайт]"
         ordering = ["pk"]
-        db_table = "users"
+        db_table = "custom_users"
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
