@@ -107,7 +107,7 @@ class LessonRetrieveAPIView(RetrieveAPIView):
                 )
                 .prefetch_related(
                     Prefetch(
-                        "step__problemstep__codes",
+                        "step__problemstep__user_answer_for_problem_steps",
                         queryset=UserAnswerForProblemStep.objects.filter(user=self.request.user),
                     )
                 )
