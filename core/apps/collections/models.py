@@ -64,7 +64,6 @@ class CollectionStepConnection(TimedBaseModel):
         unique_together = (
             "collection",
             "step",
-            "number",
         )
 
     def __str__(self) -> str:

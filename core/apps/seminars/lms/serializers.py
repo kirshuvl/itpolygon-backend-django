@@ -33,7 +33,7 @@ class SeminarsListSerializer(ModelSerializer):
         total_practical_steps = 0
         completed_tpractical_steps = 0
         connections = (
-            seminar.user_seminar_enrolls.first().collection.colection_step_connections.all()
+            seminar.user_seminar_enrolls.first().collection.collection_step_connections.all()
         )
         steps = [connection.step for connection in connections]
 
@@ -92,7 +92,7 @@ class HomeworkListSerializer(ModelSerializer):
         total_practical_steps = 0
         completed_tpractical_steps = 0
         connections = (
-            seminar.user_homework_enrolls.first().collection.colection_step_connections.all()
+            seminar.user_homework_enrolls.first().collection.collection_step_connections.all()
         )
         steps = [connection.step for connection in connections]
 
@@ -146,7 +146,7 @@ class SeminarRetrieveSerializer(ModelSerializer):
 
     def get_steps(self, seminar):
         connections = (
-            seminar.user_seminar_enrolls.first().collection.colection_step_connections.all()
+            seminar.user_seminar_enrolls.first().collection.collection_step_connections.all()
         )
         steps = [connection.step for connection in connections]
 
@@ -175,7 +175,7 @@ class HomeworkRetrieveSerializer(ModelSerializer):
 
     def get_steps(self, seminar):
         connections = (
-            seminar.user_homework_enrolls.first().collection.colection_step_connections.all()
+            seminar.user_homework_enrolls.first().collection.collection_step_connections.all()
         )
         steps = [connection.step for connection in connections]
 

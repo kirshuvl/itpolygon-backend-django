@@ -34,7 +34,7 @@ class SeminarListAPIView(ListAPIView):
                     ),
                 ),
                 Prefetch(
-                    "user_seminar_enrolls__collection__colection_step_connections",
+                    "user_seminar_enrolls__collection__collection_step_connections",
                     queryset=CollectionStepConnection.objects.prefetch_related(
                         Prefetch(
                             "step__user_step_enrolls",
@@ -75,7 +75,7 @@ class HomeworkListAPIView(ListAPIView):
                     ),
                 ),
                 Prefetch(
-                    "user_homework_enrolls__collection__colection_step_connections",
+                    "user_homework_enrolls__collection__collection_step_connections",
                     queryset=CollectionStepConnection.objects.prefetch_related(
                         Prefetch(
                             "step__user_step_enrolls",
@@ -91,7 +91,7 @@ class HomeworkListAPIView(ListAPIView):
                     )
                     .prefetch_related(
                         Prefetch(
-                            "step__question_answers",
+                            "step__questionstep__user_answer_for_question_steps",
                             queryset=UserAnswerForQuestionStep.objects.filter(
                                 user=self.request.user
                             ),
@@ -124,7 +124,7 @@ class SeminarRetrieveAPIView(RetrieveAPIView):
                     ),
                 ),
                 Prefetch(
-                    "user_seminar_enrolls__collection__colection_step_connections",
+                    "user_seminar_enrolls__collection__collection_step_connections",
                     queryset=CollectionStepConnection.objects.prefetch_related(
                         Prefetch(
                             "step__user_step_enrolls",
@@ -140,7 +140,7 @@ class SeminarRetrieveAPIView(RetrieveAPIView):
                     )
                     .prefetch_related(
                         Prefetch(
-                            "step__question_answers",
+                            "step__questionstep__user_answer_for_question_steps",
                             queryset=UserAnswerForQuestionStep.objects.filter(
                                 user=self.request.user
                             ),
@@ -173,7 +173,7 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                     ),
                 ),
                 Prefetch(
-                    "user_homework_enrolls__collection__colection_step_connections",
+                    "user_homework_enrolls__collection__collection_step_connections",
                     queryset=CollectionStepConnection.objects.prefetch_related(
                         Prefetch(
                             "step__user_step_enrolls",
@@ -189,7 +189,7 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                     )
                     .prefetch_related(
                         Prefetch(
-                            "step__question_answers",
+                            "step__questionstep__user_answer_for_question_steps",
                             queryset=UserAnswerForQuestionStep.objects.filter(
                                 user=self.request.user
                             ),

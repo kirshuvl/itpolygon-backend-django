@@ -74,7 +74,7 @@ class QuestionStepSerializer(ModelSerializer):
         )
 
     def get_userAnswers(self, step):
-        user_answers = step.question_answers.all()
+        user_answers = step.user_answer_for_question_steps.all()
         return UserAnswerForQuestionStepCommonSerializer(
             user_answers, context=self.context, many=True
         ).data
