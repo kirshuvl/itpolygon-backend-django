@@ -9,7 +9,7 @@ from core.apps.steps.models import (
     VideoStep,
 )
 
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import IntegerField, ModelSerializer, SerializerMethodField
 
 
 class UserStepEnrollSerializer(ModelSerializer):
@@ -81,7 +81,8 @@ class QuestionStepSerializer(ModelSerializer):
 
 
 class ProblemStepSerializer(ModelSerializer):
-    userProblems = SerializerMethodField()
+    userAnswers = SerializerMethodField()
+    cpuTime = IntegerField(source="cpu_time")
 
     class Meta:
         model = ProblemStep
@@ -91,11 +92,13 @@ class ProblemStepSerializer(ModelSerializer):
             "input",
             "output",
             "notes",
-            "userProblems",
+            "cpuTime",
+            "memory",
+            "userAnswers",
         )
 
-    def get_userProblems(self, step):
-        user_answers = step.codes.all()
+    def get_userAnswers(self, step):
+        user_answers = step.user_answer_for_problem_steps.all()
         return UserAnswerForProblemStepCommonSerializer(
             user_answers, context=self.context, many=True
         ).data
@@ -129,15 +132,19 @@ class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
             "question",
             "answer",
             "is_correct",
+            "created_at",
         )
 
 
 class UserAnswerForProblemStepCommonSerializer(ModelSerializer):
+    cpuTime = IntegerField(source="cpu_time")
+
     class Meta:
         model = UserAnswerForProblemStep
         fields = (
             "id",
             "language",
             "verdict",
-            "cputime",
+            "cpuTime",
+            "created_at",
         )

@@ -22,7 +22,7 @@ def run_user_code(user_answer_pk):
         code = user_answer.code
 
     files = [{"name": "main.py", "content": bytes(code, encoding="UTF-8")}]
-    limits = {"cputime": user_answer.problem.cputime, "memory": user_answer.problem.memory}
+    limits = {"cputime": user_answer.problem.cpu_time, "memory": user_answer.problem.memory}
 
     tests = TestForProblemStep.objects.filter(
         problem=user_answer.problem, number__gte=user_answer.problem.first_test
@@ -76,7 +76,7 @@ def run_user_code(user_answer_pk):
             break
 
     user_answer.points = cnt
-    user_answer.cputime = cpu_max
+    user_answer.cpu_time = cpu_max
     user_answer.verdict = verdict
     user_answer.first_fail_test = first_fail
 
