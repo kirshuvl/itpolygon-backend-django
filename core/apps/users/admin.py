@@ -15,22 +15,26 @@ class CustomUserAdmin(UserAdmin):
         "created_at",
         "updated_at",
     )
+
     list_display_links = (
         "id",
         "first_name",
         "last_name",
         "email",
     )
+
     search_fields = (
         "id",
         "first_name",
         "last_name",
         "email",
     )
+
     list_filter = (
         "first_name",
         "last_name",
     )
+
     fieldsets = (
         (
             "Основная информация",
@@ -56,6 +60,7 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
     add_fieldsets = (
         (
             "Создать пользователя",
@@ -72,4 +77,5 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
     ordering = ("id",)

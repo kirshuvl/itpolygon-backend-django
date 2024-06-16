@@ -72,7 +72,7 @@ class TextStep(Step):
         verbose_name = "Шаг [Текстовый]"
         verbose_name_plural = "2. Шаги [Текстовые]"
         ordering = ["pk"]
-        db_table = "text_steps"
+        db_table = "steps_textsteps"
 
 
 class VideoStep(Step):
@@ -87,13 +87,14 @@ class VideoStep(Step):
         verbose_name = "Шаг [Видео]"
         verbose_name_plural = "3. Шаги [Видео]"
         ordering = ["pk"]
-        db_table = "video_steps"
+        db_table = "steps_videosteps"
 
 
 class QuestionStep(Step):
     text = models.JSONField(
         verbose_name="Текст",
     )
+
     answer = models.CharField(
         verbose_name="Ответ",
     )
@@ -104,20 +105,20 @@ class QuestionStep(Step):
         verbose_name = "Шаг [Вопрос]"
         verbose_name_plural = "4. Шаги [Вопрос]"
         ordering = ["pk"]
-        db_table = "question_steps"
+        db_table = "steps_questionsteps"
 
 
 class UserAnswerForQuestionStep(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
-        related_name="question_answers",
+        related_name="user_answer_for_question_steps",
         verbose_name="Пользователь",
         on_delete=models.PROTECT,
     )
 
     question = models.ForeignKey(
-        Step,
-        related_name="question_answers",
+        QuestionStep,
+        related_name="user_answer_for_question_steps",
         verbose_name="Вопрос",
         on_delete=models.CASCADE,
     )
@@ -125,6 +126,7 @@ class UserAnswerForQuestionStep(TimedBaseModel):
     answer = models.CharField(
         verbose_name="Ответ пользователя",
     )
+
     is_correct = models.BooleanField(
         default=False,
     )
@@ -133,7 +135,7 @@ class UserAnswerForQuestionStep(TimedBaseModel):
         verbose_name = "Шаг [Вопрос][Ответ]"
         verbose_name_plural = "4. Шаги [Вопрос] -> [Ответ]"
         ordering = ["pk"]
-        db_table = "user_answers_for_question_steps"
+        db_table = "user_answer_for_question_steps"
 
 
 class ProblemStep(Step):
@@ -175,7 +177,7 @@ class ProblemStep(Step):
         default=4,
     )
 
-    cputime = models.IntegerField(
+    cpu_time = models.IntegerField(
         verbose_name="CPU Time",
         default=1,
     )
@@ -191,7 +193,7 @@ class ProblemStep(Step):
         verbose_name = "Шаг [Программирование]"
         verbose_name_plural = "5. Шаги [Программирование]"
         ordering = ["pk"]
-        db_table = "problem_steps"
+        db_table = "steps_problemsteps"
 
 
 class TestForProblemStep(TimedBaseModel):
@@ -224,22 +226,25 @@ class TestForProblemStep(TimedBaseModel):
         verbose_name_plural = "5. Шаги [Программирование][Тесты]"
         ordering = ["pk"]
         unique_together = ("problem", "number")
+        db_table = "test_for_problem_steps"
 
 
 class UserAnswerForProblemStep(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_answer_for_problem_steps",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
     code = models.TextField(
         verbose_name="Код пользователя",
         max_length=10000,
     )
-    user = models.ForeignKey(
-        CustomUser,
-        related_name="codes",
-        verbose_name="Пользователь",
-        on_delete=models.CASCADE,
-    )
+
     problem = models.ForeignKey(
         ProblemStep,
-        related_name="codes",
+        related_name="user_answer_for_problem_steps",
         verbose_name="Задача",
         on_delete=models.CASCADE,
     )
@@ -248,12 +253,14 @@ class UserAnswerForProblemStep(TimedBaseModel):
         ("python", "Python"),
         ("cpp", "C++"),
     ]
+
     language = models.CharField(
         verbose_name="Язык программирования",
         max_length=10,
         choices=LANGUAGE_CHOICES,
         default="python",
     )
+
     VERDICT_CHOICES = [
         ("PR", "На проверке"),
         ("OK", "OK"),
@@ -263,20 +270,24 @@ class UserAnswerForProblemStep(TimedBaseModel):
         ("ML", "Превышение памяти"),
         ("UN", "Незвестная ошибка"),
     ]
+
     verdict = models.CharField(
         verbose_name="Вердикт",
         max_length=2,
         choices=VERDICT_CHOICES,
         default="PR",
     )
-    cputime = models.FloatField(
+
+    cpu_time = models.FloatField(
         verbose_name="CPU Time",
         null=True,
     )
+
     first_fail_test = models.IntegerField(
         verbose_name="Первый ошибочный тест",
         null=True,
     )
+
     points = models.IntegerField(
         verbose_name="Баллы",
         null=True,
@@ -291,19 +302,21 @@ class UserAnswerForProblemStep(TimedBaseModel):
 class UserAnswerForTestForProblemStep(TimedBaseModel):
     user = models.ForeignKey(
         CustomUser,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Пользователь",
         on_delete=models.CASCADE,
     )
+
     code = models.ForeignKey(
         UserAnswerForProblemStep,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Решение",
         on_delete=models.CASCADE,
     )
+
     test = models.ForeignKey(
         TestForProblemStep,
-        related_name="attempts",
+        related_name="user_answer_for_test_for_problem_steps",
         verbose_name="Тест",
         on_delete=models.CASCADE,
     )
@@ -317,6 +330,7 @@ class UserAnswerForTestForProblemStep(TimedBaseModel):
         ("ML", "Превышение памяти"),
         ("UN", "Незвестная ошибка"),
     ]
+
     verdict = models.CharField(
         verbose_name="Вердикт",
         max_length=2,
@@ -327,22 +341,27 @@ class UserAnswerForTestForProblemStep(TimedBaseModel):
     exit_code = models.IntegerField(
         verbose_name="exit_code",
     )
+
     stdout = models.TextField(
         verbose_name="stdout",
         max_length=10000,
     )
+
     stderr = models.TextField(
         verbose_name="stderr",
         max_length=10000,
     )
+
     duration = models.FloatField(
         verbose_name="duration",
         default=0,
     )
+
     timeout = models.BooleanField(
         verbose_name="timeout",
         default=False,
     )
+
     oom_killed = models.BooleanField(
         verbose_name="oom_killed",
         default=False,
@@ -376,6 +395,7 @@ class UserStepEnroll(TimedBaseModel):
         ("OK", "Шаг пройден"),
         ("WT", "Шаг на проверке"),
     ]
+
     status = models.CharField(
         verbose_name="Статус",
         max_length=2,

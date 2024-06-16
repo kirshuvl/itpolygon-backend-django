@@ -14,7 +14,7 @@ from core.config.settings.celery import app
 def run_user_code(user_answer_pk):
     user_answer = UserAnswerForProblemStep.objects.get(pk=user_answer_pk)
 
-    epicbox.configure(profiles=[epicbox.Profile("python", "stepik/epicbox-python:3.12.3-1")])
+    epicbox.configure(profiles=[epicbox.Profile("python", "python:3.12-alpine")])
 
     if user_answer.problem.start_code != "":
         code = user_answer.problem.start_code.replace("{{ user_code }}", user_answer.code)
