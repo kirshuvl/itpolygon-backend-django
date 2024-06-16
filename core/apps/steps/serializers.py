@@ -9,11 +9,7 @@ from core.apps.steps.models import (
     VideoStep,
 )
 
-from rest_framework.serializers import (
-    ModelSerializer,
-    SerializerMethodField,
-    IntegerField,
-)
+from rest_framework.serializers import IntegerField, ModelSerializer, SerializerMethodField
 
 
 class UserStepEnrollSerializer(ModelSerializer):
