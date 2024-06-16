@@ -4,7 +4,6 @@ venv/
 static/
 !static/.gitkeep
 __pycache__/
-**/migrations/*
 !**/migrations/__init__.py
 media/
 icon/
