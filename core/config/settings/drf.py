@@ -4,9 +4,8 @@ import os
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 REST_FRAMEWORK = {
-    "Default_RENDERER_CLASSES": [
-        "rest_frameworks.renderers.JSONRenderer",
-        "rest_frameworks.renderers.BrowsableAPIRenderer",
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",

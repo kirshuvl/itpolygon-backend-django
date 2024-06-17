@@ -1,6 +1,12 @@
 from .main import *
 
 DEBUG = True
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://api.itpolygon.ru",
+    "https://api.itpolygon.ru",
+]
+
 if DEBUG:
     import socket  # only if you haven't already imported this
 
