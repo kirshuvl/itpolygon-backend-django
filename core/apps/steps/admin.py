@@ -10,6 +10,7 @@ from core.apps.steps.models import (
     UserAnswerForQuestionStep,
     UserAnswerForTestForProblemStep,
     UserStepEnroll,
+    UserStepLike,
     VideoStep,
 )
 
@@ -188,3 +189,37 @@ class UserAnswerForTestForProblemStepAdmin(admin.ModelAdmin):
         "user",
         "verdict",
     )
+
+
+@admin.register(UserStepLike)
+class UserStepLikeAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "step",
+        "user",
+        "source",
+        "created_at",
+        "updated_at",
+    )
+
+    list_display_links = (
+        "id",
+        "step",
+        "user",
+    )
+
+    search_fields = (
+        "id",
+        "step",
+        "user",
+        "status",
+        "created_at",
+        "updated_at",
+    )
+
+    list_filter = (
+        "step",
+        "user",
+    )
+
+    ordering = ("id",)

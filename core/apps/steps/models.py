@@ -412,3 +412,41 @@ class UserStepEnroll(TimedBaseModel):
             "user",
         )
         db_table = "user_step_enrolls"
+
+
+class UserStepLike(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_step_likes",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    step = models.ForeignKey(
+        Step,
+        related_name="user_step_likes",
+        verbose_name="Шаг",
+        on_delete=models.CASCADE,
+    )
+
+    SOURCE_CHOICES = [
+        ("LMS", "LMS"),
+        ("BOT", "Телеграм Бот"),
+    ]
+
+    source = models.CharField(
+        verbose_name="Источник",
+        max_length=3,
+        choices=SOURCE_CHOICES,
+        default="LMS",
+    )
+
+    class Meta:
+        verbose_name = "Шаг -> Лайк [Сайт]"
+        verbose_name_plural = "7. Шаги -> Лайки [Сайт]"
+        ordering = ["pk"]
+        unique_together = (
+            "step",
+            "user",
+        )
+        db_table = "user_step_likes"
