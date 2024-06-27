@@ -9,6 +9,7 @@ from core.apps.steps.models import (
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
     UserAnswerForTestForProblemStep,
+    UserStepBookmark,
     UserStepEnroll,
     UserStepLike,
     VideoStep,
@@ -192,6 +193,7 @@ class UserAnswerForTestForProblemStepAdmin(admin.ModelAdmin):
 
 
 @admin.register(UserStepLike)
+@admin.register(UserStepBookmark)
 class UserStepLikeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
