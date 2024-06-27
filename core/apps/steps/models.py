@@ -31,6 +31,21 @@ class Step(TimedBaseModel):
         default=True,
     )
 
+    liked_by = models.BigIntegerField(
+        verbose_name="Счетчик лайков",
+        default=0,
+    )
+
+    bookmarked_by = models.BigIntegerField(
+        verbose_name="Счетчик закладок",
+        default=0,
+    )
+
+    viewed_by = models.BigIntegerField(
+        verbose_name="Счетчик просмотров",
+        default=0,
+    )
+
     objects = StepManager()
 
     class Meta:
