@@ -4,6 +4,7 @@ from core.apps.steps.models import (
     UserStepBookmark,
     UserStepEnroll,
     UserStepLike,
+    UserStepView,
 )
 
 from rest_framework.serializers import ModelSerializer
@@ -61,6 +62,17 @@ class UserStepLikeSerializer(ModelSerializer):
 class UserStepBookmarkSerializer(ModelSerializer):
     class Meta:
         model = UserStepBookmark
+        fields = (
+            "id",
+            "user",
+            "step",
+            "source",
+        )
+
+
+class UserStepViewSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepView
         fields = (
             "id",
             "user",

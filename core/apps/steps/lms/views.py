@@ -12,6 +12,7 @@ from core.apps.steps.lms.serializers import (
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
     UserStepLikeSerializer,
+    UserStepViewSerializer,
 )
 from core.apps.steps.serializers import (
     UserAnswerForProblemStepCommonSerializer,
@@ -174,3 +175,11 @@ class UserStepBookmarkDeleteAPIView(DestroyAPIView):
 
     def get_queryset(self):
         return UserStepBookmark.objects.filter(user=self.request.user)
+
+
+@extend_schema(
+    tags=["LMS", "Step"],
+    summary="UserStepViews Create",
+)
+class UserStepViewCreateAPIView(CreateAPIView):
+    serializer_class = UserStepViewSerializer

@@ -9,6 +9,7 @@ from core.apps.steps.lms.views import (
     UserStepEnrollsUpdateAPIVIew,
     UserStepLikeCreateAPIView,
     UserStepLikeDeleteAPIView,
+    UserStepViewCreateAPIView,
 )
 
 urlpatterns = [
@@ -35,6 +36,10 @@ urlpatterns = [
     path(
         "steps/bookmarks/<int:bookmarkId>/",
         UserStepBookmarkDeleteAPIView.as_view(),
+    ),
+    path(
+        "steps/views/",
+        UserStepViewCreateAPIView.as_view(),
     ),
     path(
         "steps/answers/",
