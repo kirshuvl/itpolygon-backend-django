@@ -5,6 +5,8 @@ from core.apps.steps.lms.views import (
     UserAnswerForQuestionStepCreateAPIView,
     UserStepEnrollCreateAPIView,
     UserStepEnrollsUpdateAPIVIew,
+    UserStepLikeCreateAPIView,
+    UserStepLikeDeleteAPIView,
 )
 
 urlpatterns = [
@@ -15,6 +17,14 @@ urlpatterns = [
     path(
         "steps/enrolls/<int:enrollId>/",
         UserStepEnrollsUpdateAPIVIew.as_view(),
+    ),
+    path(
+        "steps/likes/",
+        UserStepLikeCreateAPIView.as_view(),
+    ),
+    path(
+        "steps/likes/<int:likeId>/",
+        UserStepLikeDeleteAPIView.as_view(),
     ),
     path(
         "steps/answers/",

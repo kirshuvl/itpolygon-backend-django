@@ -1,15 +1,16 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.apps.steps.models import QuestionStep, UserStepEnroll
+from core.apps.steps.models import QuestionStep, UserStepEnroll, UserStepLike
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
     UserAnswerForQuestionStepCreateSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
+    UserStepLikeSerializer,
 )
 from core.apps.steps.serializers import (
     UserAnswerForProblemStepCommonSerializer,
@@ -132,3 +133,23 @@ class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
+
+
+@extend_schema(
+    tags=["LMS", "Step"],
+    summary="UserStepLikes Create",
+)
+class UserStepLikeCreateAPIView(CreateAPIView):
+    serializer_class = UserStepLikeSerializer
+
+
+@extend_schema(
+    tags=["LMS", "Step"],
+    summary="UserStepLikes Delete",
+)
+class UserStepLikeDeleteAPIView(DestroyAPIView):
+    serializer_class = UserStepLikeSerializer
+    lookup_url_kwarg = "likeId"
+
+    def get_queryset(self):
+        return UserStepLike.objects.filter(user=self.request.user)
