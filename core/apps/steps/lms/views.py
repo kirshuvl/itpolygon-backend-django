@@ -3,11 +3,12 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.apps.steps.models import QuestionStep, UserStepEnroll, UserStepLike
+from core.apps.steps.models import QuestionStep, UserStepBookmark, UserStepEnroll, UserStepLike
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
     UserAnswerForQuestionStepCreateSerializer,
+    UserStepBookmarkSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
     UserStepLikeSerializer,
@@ -153,3 +154,23 @@ class UserStepLikeDeleteAPIView(DestroyAPIView):
 
     def get_queryset(self):
         return UserStepLike.objects.filter(user=self.request.user)
+
+
+@extend_schema(
+    tags=["LMS", "Step"],
+    summary="UserStepBookmarks Create",
+)
+class UserStepBookmarkCreateAPIView(CreateAPIView):
+    serializer_class = UserStepBookmarkSerializer
+
+
+@extend_schema(
+    tags=["LMS", "Step"],
+    summary="UserStepBookmarks Delete",
+)
+class UserStepBookmarkDeleteAPIView(DestroyAPIView):
+    serializer_class = UserStepBookmarkSerializer
+    lookup_url_kwarg = "bookmarkId"
+
+    def get_queryset(self):
+        return UserStepBookmark.objects.filter(user=self.request.user)
