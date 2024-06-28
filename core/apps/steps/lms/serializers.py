@@ -1,7 +1,10 @@
 from core.apps.steps.models import (
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserStepBookmark,
     UserStepEnroll,
+    UserStepLike,
+    UserStepView,
 )
 
 from rest_framework.serializers import ModelSerializer
@@ -42,4 +45,37 @@ class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
             "id",
             "code",
             "problem",
+        )
+
+
+class UserStepLikeSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepLike
+        fields = (
+            "id",
+            "user",
+            "step",
+            "source",
+        )
+
+
+class UserStepBookmarkSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepBookmark
+        fields = (
+            "id",
+            "user",
+            "step",
+            "source",
+        )
+
+
+class UserStepViewSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepView
+        fields = (
+            "id",
+            "user",
+            "step",
+            "source",
         )

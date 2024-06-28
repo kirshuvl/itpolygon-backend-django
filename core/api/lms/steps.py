@@ -3,8 +3,13 @@ from django.urls import path
 from core.apps.steps.lms.views import (
     UserAnswerForProblemStepCreateAPIView,
     UserAnswerForQuestionStepCreateAPIView,
+    UserStepBookmarkCreateAPIView,
+    UserStepBookmarkDeleteAPIView,
     UserStepEnrollCreateAPIView,
     UserStepEnrollsUpdateAPIVIew,
+    UserStepLikeCreateAPIView,
+    UserStepLikeDeleteAPIView,
+    UserStepViewCreateAPIView,
 )
 
 urlpatterns = [
@@ -15,6 +20,26 @@ urlpatterns = [
     path(
         "steps/enrolls/<int:enrollId>/",
         UserStepEnrollsUpdateAPIVIew.as_view(),
+    ),
+    path(
+        "steps/likes/",
+        UserStepLikeCreateAPIView.as_view(),
+    ),
+    path(
+        "steps/likes/<int:likeId>/",
+        UserStepLikeDeleteAPIView.as_view(),
+    ),
+    path(
+        "steps/bookmarks/",
+        UserStepBookmarkCreateAPIView.as_view(),
+    ),
+    path(
+        "steps/bookmarks/<int:bookmarkId>/",
+        UserStepBookmarkDeleteAPIView.as_view(),
+    ),
+    path(
+        "steps/views/",
+        UserStepViewCreateAPIView.as_view(),
     ),
     path(
         "steps/answers/",

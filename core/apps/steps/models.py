@@ -31,6 +31,21 @@ class Step(TimedBaseModel):
         default=True,
     )
 
+    liked_by = models.BigIntegerField(
+        verbose_name="Счетчик лайков",
+        default=0,
+    )
+
+    bookmarked_by = models.BigIntegerField(
+        verbose_name="Счетчик закладок",
+        default=0,
+    )
+
+    viewed_by = models.BigIntegerField(
+        verbose_name="Счетчик просмотров",
+        default=0,
+    )
+
     objects = StepManager()
 
     class Meta:
@@ -412,3 +427,113 @@ class UserStepEnroll(TimedBaseModel):
             "user",
         )
         db_table = "user_step_enrolls"
+
+
+class UserStepLike(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_step_likes",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    step = models.ForeignKey(
+        Step,
+        related_name="user_step_likes",
+        verbose_name="Шаг",
+        on_delete=models.CASCADE,
+    )
+
+    SOURCE_CHOICES = [
+        ("LMS", "LMS"),
+        ("BOT", "Телеграм Бот"),
+    ]
+
+    source = models.CharField(
+        verbose_name="Источник",
+        max_length=3,
+        choices=SOURCE_CHOICES,
+        default="LMS",
+    )
+
+    class Meta:
+        verbose_name = "Шаг -> Лайк [Сайт]"
+        verbose_name_plural = "7. Шаги -> Лайки [Сайт]"
+        ordering = ["pk"]
+        unique_together = (
+            "step",
+            "user",
+        )
+        db_table = "user_step_likes"
+
+
+class UserStepBookmark(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_step_bookmarks",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    step = models.ForeignKey(
+        Step,
+        related_name="user_step_bookmarks",
+        verbose_name="Шаг",
+        on_delete=models.CASCADE,
+    )
+
+    SOURCE_CHOICES = [
+        ("LMS", "LMS"),
+        ("BOT", "Телеграм Бот"),
+    ]
+
+    source = models.CharField(
+        verbose_name="Источник",
+        max_length=3,
+        choices=SOURCE_CHOICES,
+        default="LMS",
+    )
+
+    class Meta:
+        verbose_name = "Шаг -> Закладка [Сайт]"
+        verbose_name_plural = "8. Шаги -> Закладки [Сайт]"
+        ordering = ["pk"]
+        unique_together = (
+            "step",
+            "user",
+        )
+        db_table = "user_step_bookmarks"
+
+
+class UserStepView(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_step_views",
+        verbose_name="Пользователь",
+        on_delete=models.CASCADE,
+    )
+
+    step = models.ForeignKey(
+        Step,
+        related_name="user_step_views",
+        verbose_name="Шаг",
+        on_delete=models.CASCADE,
+    )
+
+    SOURCE_CHOICES = [
+        ("LMS", "LMS"),
+        ("BOT", "Телеграм Бот"),
+    ]
+
+    source = models.CharField(
+        verbose_name="Источник",
+        max_length=3,
+        choices=SOURCE_CHOICES,
+        default="LMS",
+    )
+
+    class Meta:
+        verbose_name = "Шаг -> Просмотр [Сайт]"
+        verbose_name_plural = "9. Шаги -> Просмотры [Сайт]"
+        ordering = ["pk"]
+        db_table = "user_step_views"
