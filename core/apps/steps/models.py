@@ -153,6 +153,78 @@ class UserAnswerForQuestionStep(TimedBaseModel):
         db_table = "user_answer_for_question_steps"
 
 
+class SingleChoiceQuestionStep(Step):
+    text = models.JSONField(
+        verbose_name="Текст вопроса",
+    )
+
+    objects = DefaultStepManager()
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа]"
+        ordering = ["pk"]
+        db_table = "steps_singlechoicesteps"
+
+
+class AnswerForSingleChoiceQuestionStep(TimedBaseModel):
+    answer = models.CharField(
+        verbose_name="Ответ",
+    )
+
+    question = models.ForeignKey(
+        SingleChoiceQuestionStep,
+        related_name="answer_for_single_choice_question_steps",
+        verbose_name="Вопрос",
+        on_delete=models.CASCADE,
+    )
+
+    is_correct = models.BooleanField(
+        verbose_name="Верный ответ",
+        default=False,
+    )
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа] -> [Варианты ответа]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа] -> [Варианты ответов]"
+        ordering = ["pk"]
+        db_table = "answer_for_single_choice_question_steps"
+
+
+class UserAnswerForSingleChoiceQuestionStep(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Студент",
+        on_delete=models.CASCADE,
+    )
+
+    question = models.ForeignKey(
+        SingleChoiceQuestionStep,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Вопрос",
+        on_delete=models.CASCADE,
+    )
+
+    answer = models.ForeignKey(
+        AnswerForSingleChoiceQuestionStep,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Ответ",
+        on_delete=models.CASCADE,
+    )
+
+    is_correct = models.BooleanField(
+        verbose_name="Верный ответ",
+        default=False,
+    )
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа] -> [Ответ]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа] -> [Ответы]"
+        ordering = ["pk"]
+        db_table = "user_answer_for_single_choice_question_steps"
+
+
 class ProblemStep(Step):
     text = models.JSONField(
         verbose_name="Легенда задачи",
