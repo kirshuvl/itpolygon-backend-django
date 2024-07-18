@@ -14,6 +14,7 @@ from core.apps.steps.models import (
 from django.db.models import Prefetch
 
 from core.apps.courses.lms.serializers import (
+    CourseListSerializer,
     CourseRetrieveSerializer,
     LessonRetrieveSerializer,
 )
