@@ -9,7 +9,13 @@ class StepManager(models.Manager):
         return (
             super()
             .get_queryset()
-            .select_related("textstep", "videostep", "questionstep", "problemstep")
+            .select_related(
+                "textstep",
+                "videostep",
+                "questionstep",
+                "problemstep",
+                "singlechoicequestionstep",
+            )
         )
 
 
@@ -63,6 +69,8 @@ class Step(TimedBaseModel):
             return "questionstep"
         elif hasattr(self, "problemstep"):
             return "problemstep"
+        elif hasattr(self, "singlechoicequestionstep"):
+            return "singlechoicequestionstep"
         return None
 
     def __str__(self):
@@ -71,6 +79,7 @@ class Step(TimedBaseModel):
             "videostep": "[Шаг][Видео]",
             "questionstep": "[Шаг][Вопрос]",
             "problemstep": "[Шаг][Задача]",
+            "singlechoicequestionstep": "[Шаг][Вопрос с выбором ответа]",
             None: "[Шаг][None]",
         }
         return f"{data[self.get_type()]} № {self.pk}"

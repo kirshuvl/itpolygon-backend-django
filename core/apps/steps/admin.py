@@ -10,6 +10,7 @@ from core.apps.steps.models import (
     TextStep,
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
     UserAnswerForTestForProblemStep,
     UserStepBookmark,
     UserStepEnroll,
@@ -250,3 +251,20 @@ class UserStepAdmin(admin.ModelAdmin):
     )
 
     ordering = ("id",)
+
+
+@admin.register(UserAnswerForSingleChoiceQuestionStep)
+class UserAnswerForSingleChoiceQuestionStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "question",
+        "answer",
+        "is_correct",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+        "question",
+    )
