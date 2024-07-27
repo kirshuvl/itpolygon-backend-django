@@ -10,6 +10,7 @@ from core.apps.steps.models import (
     UserAnswerForQuestionStep,
     UserAnswerForSingleChoiceQuestionStep,
     UserStepEnroll,
+    UserStepLike,
 )
 from django.db.models import Prefetch
 
@@ -111,6 +112,14 @@ class LessonRetrieveAPIView(RetrieveAPIView):
                     "step__questionstep",
                     "step__problemstep",
                     "step__singlechoicequestionstep",
+                )
+                .prefetch_related(
+                    Prefetch(
+                        "step__user_step_likes",
+                        queryset=UserStepLike.objects.filter(
+                            user=self.request.user,
+                        ),
+                    )
                 )
                 .prefetch_related(
                     Prefetch(

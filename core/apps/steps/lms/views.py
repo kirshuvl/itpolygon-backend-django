@@ -3,7 +3,13 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from core.apps.steps.models import QuestionStep, UserStepBookmark, UserStepEnroll, UserStepLike
+from core.apps.steps.models import (
+    QuestionStep,
+    Step,
+    UserStepBookmark,
+    UserStepEnroll,
+    UserStepLike,
+)
 
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
@@ -117,7 +123,6 @@ class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
 
         s = serializer.instance.problem
         enroll, _ = UserStepEnroll.objects.get_or_create(user=self.request.user, step=s)
@@ -144,6 +149,27 @@ class UserAnswerForProblemStepCreateAPIView(CreateAPIView):
 class UserStepLikeCreateAPIView(CreateAPIView):
     serializer_class = UserStepLikeSerializer
 
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        print(serializer.data)
+        step = Step.objects.get(pk=serializer.data["step"])
+
+        return Response(
+            {
+                "userLike": {"id": serializer.data.get("id")},
+                "liked_by": step.liked_by,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
+
 
 @extend_schema(
     tags=["LMS", "Step"],
@@ -155,6 +181,20 @@ class UserStepLikeDeleteAPIView(DestroyAPIView):
 
     def get_queryset(self):
         return UserStepLike.objects.filter(user=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        print(instance.step)
+
+        id = instance.step.id
+        self.perform_destroy(instance)
+        step = Step.objects.get(pk=id)
+        return Response(
+            {
+                "liked_by": step.liked_by,
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 @extend_schema(
@@ -183,3 +223,23 @@ class UserStepBookmarkDeleteAPIView(DestroyAPIView):
 )
 class UserStepViewCreateAPIView(CreateAPIView):
     serializer_class = UserStepViewSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        print(serializer.data)
+        step = Step.objects.get(pk=serializer.data["step"])
+
+        return Response(
+            {
+                "viewed_by": step.viewed_by,
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )

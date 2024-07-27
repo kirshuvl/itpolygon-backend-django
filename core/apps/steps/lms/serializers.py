@@ -53,7 +53,6 @@ class UserStepLikeSerializer(ModelSerializer):
         model = UserStepLike
         fields = (
             "id",
-            "user",
             "step",
             "source",
         )
@@ -75,7 +74,6 @@ class UserStepViewSerializer(ModelSerializer):
         model = UserStepView
         fields = (
             "id",
-            "user",
             "step",
             "source",
         )

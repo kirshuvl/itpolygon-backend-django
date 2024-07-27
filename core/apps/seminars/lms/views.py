@@ -5,7 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from core.apps.collections.models import CollectionStepConnection
 from core.apps.dashboard.models import UserHomeworkEnroll, UserSeminarEnroll
 from core.apps.seminars.models import Seminar
-from core.apps.steps.models import UserAnswerForQuestionStep, UserStepEnroll
+from core.apps.steps.models import (
+    AnswerForSingleChoiceQuestionStep,
+    TestForProblemStep,
+    UserAnswerForProblemStep,
+    UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
+    UserStepEnroll,
+)
 from django.db.models import Prefetch
 
 from core.apps.seminars.lms.serializers import (
@@ -47,6 +54,7 @@ class SeminarListAPIView(ListAPIView):
                         "step__videostep",
                         "step__questionstep",
                         "step__problemstep",
+                        "step__singlechoicequestionstep",
                     )
                     .filter(is_published=True)
                     .order_by("number"),
@@ -88,14 +96,7 @@ class HomeworkListAPIView(ListAPIView):
                         "step__videostep",
                         "step__questionstep",
                         "step__problemstep",
-                    )
-                    .prefetch_related(
-                        Prefetch(
-                            "step__questionstep__user_answer_for_question_steps",
-                            queryset=UserAnswerForQuestionStep.objects.filter(
-                                user=self.request.user
-                            ),
-                        )
+                        "step__singlechoicequestionstep",
                     )
                     .filter(is_published=True)
                     .order_by("number"),
@@ -137,6 +138,7 @@ class SeminarRetrieveAPIView(RetrieveAPIView):
                         "step__videostep",
                         "step__questionstep",
                         "step__problemstep",
+                        "step__singlechoicequestionstep",
                     )
                     .prefetch_related(
                         Prefetch(
@@ -186,6 +188,7 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                         "step__videostep",
                         "step__questionstep",
                         "step__problemstep",
+                        "step__singlechoicequestionstep",
                     )
                     .prefetch_related(
                         Prefetch(
@@ -193,6 +196,42 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                             queryset=UserAnswerForQuestionStep.objects.filter(
                                 user=self.request.user
                             ),
+                        )
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__questionstep__user_answer_for_question_steps",
+                            queryset=UserAnswerForQuestionStep.objects.filter(
+                                user=self.request.user,
+                            ),
+                        )
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__singlechoicequestionstep__answer_for_single_choice_question_steps",
+                            queryset=AnswerForSingleChoiceQuestionStep.objects.all(),
+                        )
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__singlechoicequestionstep__user_answer_for_single_choice_question_steps",  # noqa
+                            queryset=UserAnswerForSingleChoiceQuestionStep.objects.filter(
+                                user=self.request.user,
+                            ),
+                        )
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__problemstep__user_answer_for_problem_steps",
+                            queryset=UserAnswerForProblemStep.objects.filter(
+                                user=self.request.user
+                            ),
+                        )
+                    )
+                    .prefetch_related(
+                        Prefetch(
+                            "step__problemstep__tests",
+                            queryset=TestForProblemStep.objects.order_by("number"),
                         )
                     )
                     .filter(is_published=True)

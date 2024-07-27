@@ -10,6 +10,7 @@ from core.apps.steps.models import (
     UserAnswerForQuestionStep,
     UserAnswerForSingleChoiceQuestionStep,
     UserStepEnroll,
+    UserStepLike,
     VideoStep,
 )
 
@@ -28,6 +29,7 @@ class UserStepEnrollSerializer(ModelSerializer):
 class StepBaseSerializer(ModelSerializer):
     stepType = SerializerMethodField()
     userEnroll = SerializerMethodField()
+    userLike = SerializerMethodField()
 
     class Meta:
         model = Step
@@ -39,6 +41,7 @@ class StepBaseSerializer(ModelSerializer):
             "bookmarked_by",
             "viewed_by",
             "userEnroll",
+            "userLike",
         )
 
     def get_stepType(self, step: Step):
@@ -49,6 +52,19 @@ class StepBaseSerializer(ModelSerializer):
         if queryset:
             return UserStepEnrollSerializer(queryset).data
         return None
+
+    def get_userLike(self, step):
+        queryset = step.user_step_likes.first()
+
+        if queryset:
+            return UserStepLikeCommonSerializer(queryset).data
+        return None
+
+
+class UserStepLikeCommonSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepLike
+        fields = ("id",)
 
 
 class TextStepSerializer(ModelSerializer):
