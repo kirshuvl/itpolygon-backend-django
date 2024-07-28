@@ -4,8 +4,11 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView, RetrieveAPIVi
 from rest_framework.response import Response
 
 from core.apps.steps.models import (
+    AnswerForSingleChoiceQuestionStep,
     QuestionStep,
+    SingleChoiceQuestionStep,
     Step,
+    UserAnswerForSingleChoiceQuestionStep,
     UserStepBookmark,
     UserStepEnroll,
     UserStepLike,
@@ -14,6 +17,8 @@ from core.apps.steps.models import (
 from core.apps.steps.lms.serializers import (
     UserAnswerForProblemStepCreateSerializer,
     UserAnswerForQuestionStepCreateSerializer,
+    UserAnswerForSingleChoiceQuestionStepCreateSerializer,
+    UserAnswerForSingleChoiceQuestionStepRetrieveSerializer,
     UserStepBookmarkSerializer,
     UserStepEnrollCreateSerializer,
     UserStepEnrollRetrieveSerializer,
@@ -106,6 +111,49 @@ class UserAnswerForQuestionStepCreateAPIView(CreateAPIView):
             },
             status=status.HTTP_201_CREATED,
             headers=headers,
+        )
+
+
+@extend_schema(
+    tags=["LMS"],
+    summary="User Answer For Single Choice Problem Step Create",
+)
+class UserAnswerForSingleChoiceQuestionStepCreateAPIView(CreateAPIView):
+    serializer_class = UserAnswerForSingleChoiceQuestionStepCreateSerializer
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        question = SingleChoiceQuestionStep.objects.get(pk=request.data["question"])
+        answer = AnswerForSingleChoiceQuestionStep.objects.get(pk=request.data["answer"])
+
+        result = UserAnswerForSingleChoiceQuestionStep.objects.create(
+            user=self.request.user,
+            question=question,
+            answer=answer,
+            is_correct=answer.is_correct,
+        )
+        result.save()
+
+        serializer = self.get_serializer(data=request.data)
+
+        enroll = UserStepEnroll.objects.get(user=self.request.user, step=question)
+        if answer.is_correct:
+            enroll.status = "OK"
+        elif not answer.is_correct and enroll.status != "OK":
+            enroll.status = "WA"
+        enroll.save()
+        enroll_data = UserStepEnrollRetrieveSerializer(enroll).data
+        return Response(
+            {
+                "answer": UserAnswerForSingleChoiceQuestionStepRetrieveSerializer(result).data,
+                "userEnroll": enroll_data,
+            },
+            status=status.HTTP_201_CREATED,
         )
 
 

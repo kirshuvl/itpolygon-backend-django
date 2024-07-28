@@ -1,6 +1,7 @@
 from core.apps.steps.models import (
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
     UserStepBookmark,
     UserStepEnroll,
     UserStepLike,
@@ -33,6 +34,26 @@ class UserAnswerForQuestionStepCreateSerializer(ModelSerializer):
         fields = (
             "id",
             "question",
+            "answer",
+            "is_correct",
+        )
+
+
+class UserAnswerForSingleChoiceQuestionStepCreateSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "question",
+            "answer",
+        )
+
+
+class UserAnswerForSingleChoiceQuestionStepRetrieveSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
             "answer",
             "is_correct",
         )

@@ -3,6 +3,7 @@ from django.urls import path
 from core.apps.steps.lms.views import (
     UserAnswerForProblemStepCreateAPIView,
     UserAnswerForQuestionStepCreateAPIView,
+    UserAnswerForSingleChoiceQuestionStepCreateAPIView,
     UserStepBookmarkCreateAPIView,
     UserStepBookmarkDeleteAPIView,
     UserStepEnrollCreateAPIView,
@@ -44,6 +45,10 @@ urlpatterns = [
     path(
         "steps/answers/",
         UserAnswerForQuestionStepCreateAPIView.as_view(),
+    ),
+    path(
+        "steps/answers/single",
+        UserAnswerForSingleChoiceQuestionStepCreateAPIView.as_view(),
     ),
     path(
         "steps/codes/",
