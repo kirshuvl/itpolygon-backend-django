@@ -47,7 +47,7 @@ urlpatterns = [
         UserAnswerForQuestionStepCreateAPIView.as_view(),
     ),
     path(
-        "steps/answers/single",
+        "steps/answers/single/",
         UserAnswerForSingleChoiceQuestionStepCreateAPIView.as_view(),
     ),
     path(
