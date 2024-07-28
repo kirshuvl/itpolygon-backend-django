@@ -226,13 +226,24 @@ class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
         )
 
 
+class AnswerForSingleChoiceQuestionStepRetrieveSerializer(ModelSerializer):
+    class Meta:
+        model = AnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "answer",
+            "is_correct",
+        )
+
+
 class UserAnswerForSingleChoiceQuestionStepSerializer(ModelSerializer):
+    answer = AnswerForSingleChoiceQuestionStepRetrieveSerializer()
+
     class Meta:
         model = UserAnswerForSingleChoiceQuestionStep
         fields = (
             "id",
             "answer",
-            "is_correct",
             "created_at",
         )
 

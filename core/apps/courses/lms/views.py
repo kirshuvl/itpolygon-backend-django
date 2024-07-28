@@ -138,7 +138,9 @@ class LessonRetrieveAPIView(RetrieveAPIView):
                 .prefetch_related(
                     Prefetch(
                         "step__singlechoicequestionstep__user_answer_for_single_choice_question_steps",  # noqa
-                        queryset=UserAnswerForSingleChoiceQuestionStep.objects.filter(
+                        queryset=UserAnswerForSingleChoiceQuestionStep.objects.select_related(
+                            "answer",
+                        ).filter(
                             user=self.request.user,
                         ),
                     )

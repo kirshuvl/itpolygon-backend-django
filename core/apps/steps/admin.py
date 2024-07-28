@@ -260,7 +260,6 @@ class UserAnswerForSingleChoiceQuestionStepAdmin(admin.ModelAdmin):
         "user",
         "question",
         "answer",
-        "is_correct",
     )
 
     list_display_links = (

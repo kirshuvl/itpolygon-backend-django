@@ -222,11 +222,6 @@ class UserAnswerForSingleChoiceQuestionStep(TimedBaseModel):
         on_delete=models.CASCADE,
     )
 
-    is_correct = models.BooleanField(
-        verbose_name="Верный ответ",
-        default=False,
-    )
-
     class Meta:
         verbose_name = "Шаг [Вопрос][Выбор ответа] -> [Ответ]"
         verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа] -> [Ответы]"

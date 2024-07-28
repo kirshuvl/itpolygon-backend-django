@@ -6,9 +6,12 @@ from core.apps.steps.models import (
     UserStepEnroll,
     UserStepLike,
     UserStepView,
+    AnswerForSingleChoiceQuestionStep,
 )
 
 from rest_framework.serializers import ModelSerializer
+
+from core.apps.steps.serializers import AnswerForSingleChoiceQuestionStepRetrieveSerializer
 
 
 class UserStepEnrollCreateSerializer(ModelSerializer):
@@ -50,12 +53,14 @@ class UserAnswerForSingleChoiceQuestionStepCreateSerializer(ModelSerializer):
 
 
 class UserAnswerForSingleChoiceQuestionStepRetrieveSerializer(ModelSerializer):
+    answer = AnswerForSingleChoiceQuestionStepRetrieveSerializer()
+
     class Meta:
         model = UserAnswerForSingleChoiceQuestionStep
         fields = (
             "id",
             "answer",
-            "is_correct",
+            "created_at",
         )
 
 

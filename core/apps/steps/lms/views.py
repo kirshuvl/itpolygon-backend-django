@@ -135,7 +135,6 @@ class UserAnswerForSingleChoiceQuestionStepCreateAPIView(CreateAPIView):
             user=self.request.user,
             question=question,
             answer=answer,
-            is_correct=answer.is_correct,
         )
         result.save()
 
@@ -148,6 +147,7 @@ class UserAnswerForSingleChoiceQuestionStepCreateAPIView(CreateAPIView):
             enroll.status = "WA"
         enroll.save()
         enroll_data = UserStepEnrollRetrieveSerializer(enroll).data
+
         return Response(
             {
                 "answer": UserAnswerForSingleChoiceQuestionStepRetrieveSerializer(result).data,
