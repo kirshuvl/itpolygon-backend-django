@@ -140,15 +140,23 @@ class LessonRetrieveAPIView(RetrieveAPIView):
                         "step__singlechoicequestionstep__user_answer_for_single_choice_question_steps",  # noqa
                         queryset=UserAnswerForSingleChoiceQuestionStep.objects.select_related(
                             "answer",
-                        ).filter(
+                        )
+                        .filter(
                             user=self.request.user,
+                        )
+                        .order_by(
+                            "-created_at",
                         ),
                     )
                 )
                 .prefetch_related(
                     Prefetch(
                         "step__problemstep__user_answer_for_problem_steps",
-                        queryset=UserAnswerForProblemStep.objects.filter(user=self.request.user),
+                        queryset=UserAnswerForProblemStep.objects.filter(
+                            user=self.request.user,
+                        ).order_by(
+                            "-created_at",
+                        ),
                     )
                 )
                 .prefetch_related(
