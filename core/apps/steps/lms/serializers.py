@@ -1,6 +1,7 @@
 from core.apps.steps.models import (
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
     UserStepBookmark,
     UserStepEnroll,
     UserStepLike,
@@ -8,6 +9,8 @@ from core.apps.steps.models import (
 )
 
 from rest_framework.serializers import ModelSerializer
+
+from core.apps.steps.serializers import AnswerForSingleChoiceQuestionStepRetrieveSerializer
 
 
 class UserStepEnrollCreateSerializer(ModelSerializer):
@@ -38,6 +41,28 @@ class UserAnswerForQuestionStepCreateSerializer(ModelSerializer):
         )
 
 
+class UserAnswerForSingleChoiceQuestionStepCreateSerializer(ModelSerializer):
+    class Meta:
+        model = UserAnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "question",
+            "answer",
+        )
+
+
+class UserAnswerForSingleChoiceQuestionStepRetrieveSerializer(ModelSerializer):
+    answer = AnswerForSingleChoiceQuestionStepRetrieveSerializer()
+
+    class Meta:
+        model = UserAnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "answer",
+            "created_at",
+        )
+
+
 class UserAnswerForProblemStepCreateSerializer(ModelSerializer):
     class Meta:
         model = UserAnswerForProblemStep
@@ -53,7 +78,6 @@ class UserStepLikeSerializer(ModelSerializer):
         model = UserStepLike
         fields = (
             "id",
-            "user",
             "step",
             "source",
         )
@@ -75,7 +99,6 @@ class UserStepViewSerializer(ModelSerializer):
         model = UserStepView
         fields = (
             "id",
-            "user",
             "step",
             "source",
         )

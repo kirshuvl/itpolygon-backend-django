@@ -9,7 +9,13 @@ class StepManager(models.Manager):
         return (
             super()
             .get_queryset()
-            .select_related("textstep", "videostep", "questionstep", "problemstep")
+            .select_related(
+                "textstep",
+                "videostep",
+                "questionstep",
+                "problemstep",
+                "singlechoicequestionstep",
+            )
         )
 
 
@@ -63,6 +69,8 @@ class Step(TimedBaseModel):
             return "questionstep"
         elif hasattr(self, "problemstep"):
             return "problemstep"
+        elif hasattr(self, "singlechoicequestionstep"):
+            return "singlechoicequestionstep"
         return None
 
     def __str__(self):
@@ -71,6 +79,7 @@ class Step(TimedBaseModel):
             "videostep": "[Шаг][Видео]",
             "questionstep": "[Шаг][Вопрос]",
             "problemstep": "[Шаг][Задача]",
+            "singlechoicequestionstep": "[Шаг][Вопрос с выбором ответа]",
             None: "[Шаг][None]",
         }
         return f"{data[self.get_type()]} № {self.pk}"
@@ -151,6 +160,73 @@ class UserAnswerForQuestionStep(TimedBaseModel):
         verbose_name_plural = "4. Шаги [Вопрос] -> [Ответ]"
         ordering = ["pk"]
         db_table = "user_answer_for_question_steps"
+
+
+class SingleChoiceQuestionStep(Step):
+    text = models.JSONField(
+        verbose_name="Текст вопроса",
+    )
+
+    objects = DefaultStepManager()
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа]"
+        ordering = ["pk"]
+        db_table = "steps_singlechoicesteps"
+
+
+class AnswerForSingleChoiceQuestionStep(TimedBaseModel):
+    answer = models.CharField(
+        verbose_name="Ответ",
+    )
+
+    question = models.ForeignKey(
+        SingleChoiceQuestionStep,
+        related_name="answer_for_single_choice_question_steps",
+        verbose_name="Вопрос",
+        on_delete=models.CASCADE,
+    )
+
+    is_correct = models.BooleanField(
+        verbose_name="Верный ответ",
+        default=False,
+    )
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа] -> [Варианты ответа]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа] -> [Варианты ответов]"
+        ordering = ["pk"]
+        db_table = "answer_for_single_choice_question_steps"
+
+
+class UserAnswerForSingleChoiceQuestionStep(TimedBaseModel):
+    user = models.ForeignKey(
+        CustomUser,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Студент",
+        on_delete=models.CASCADE,
+    )
+
+    question = models.ForeignKey(
+        SingleChoiceQuestionStep,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Вопрос",
+        on_delete=models.CASCADE,
+    )
+
+    answer = models.ForeignKey(
+        AnswerForSingleChoiceQuestionStep,
+        related_name="user_answer_for_single_choice_question_steps",
+        verbose_name="Ответ",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Шаг [Вопрос][Выбор ответа] -> [Ответ]"
+        verbose_name_plural = "4. Шаги [Вопрос][Выбор ответа] -> [Ответы]"
+        ordering = ["pk"]
+        db_table = "user_answer_for_single_choice_question_steps"
 
 
 class ProblemStep(Step):

@@ -1,13 +1,16 @@
 from django.contrib import admin
 
 from core.apps.steps.models import (
+    AnswerForSingleChoiceQuestionStep,
     ProblemStep,
     QuestionStep,
+    SingleChoiceQuestionStep,
     Step,
     TestForProblemStep,
     TextStep,
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
     UserAnswerForTestForProblemStep,
     UserStepBookmark,
     UserStepEnroll,
@@ -21,6 +24,7 @@ from core.apps.steps.models import (
 @admin.register(TextStep)
 @admin.register(VideoStep)
 @admin.register(QuestionStep)
+@admin.register(SingleChoiceQuestionStep)
 @admin.register(ProblemStep)
 class StepAdmin(admin.ModelAdmin):
     list_display = (
@@ -138,6 +142,26 @@ class UserAnswerForProblemStepAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(AnswerForSingleChoiceQuestionStep)
+class AnswerForSingleChoiceQuestionStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "question",
+        "answer",
+        "is_correct",
+    )
+
+    list_display_links = (
+        "id",
+        "question",
+    )
+
+    list_filter = (
+        "id",
+        "question",
+    )
+
+
 @admin.register(UserStepEnroll)
 class UserStepEnrollAdmin(admin.ModelAdmin):
     list_display = (
@@ -227,3 +251,19 @@ class UserStepAdmin(admin.ModelAdmin):
     )
 
     ordering = ("id",)
+
+
+@admin.register(UserAnswerForSingleChoiceQuestionStep)
+class UserAnswerForSingleChoiceQuestionStepAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "question",
+        "answer",
+    )
+
+    list_display_links = (
+        "id",
+        "user",
+        "question",
+    )

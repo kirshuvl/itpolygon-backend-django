@@ -1,11 +1,16 @@
 from core.apps.steps.models import (
+    AnswerForSingleChoiceQuestionStep,
     ProblemStep,
     QuestionStep,
+    SingleChoiceQuestionStep,
     Step,
+    TestForProblemStep,
     TextStep,
     UserAnswerForProblemStep,
     UserAnswerForQuestionStep,
+    UserAnswerForSingleChoiceQuestionStep,
     UserStepEnroll,
+    UserStepLike,
     VideoStep,
 )
 
@@ -24,6 +29,7 @@ class UserStepEnrollSerializer(ModelSerializer):
 class StepBaseSerializer(ModelSerializer):
     stepType = SerializerMethodField()
     userEnroll = SerializerMethodField()
+    userLike = SerializerMethodField()
 
     class Meta:
         model = Step
@@ -31,7 +37,11 @@ class StepBaseSerializer(ModelSerializer):
             "id",
             "title",
             "stepType",
+            "liked_by",
+            "bookmarked_by",
+            "viewed_by",
             "userEnroll",
+            "userLike",
         )
 
     def get_stepType(self, step: Step):
@@ -42,6 +52,19 @@ class StepBaseSerializer(ModelSerializer):
         if queryset:
             return UserStepEnrollSerializer(queryset).data
         return None
+
+    def get_userLike(self, step):
+        queryset = step.user_step_likes.first()
+
+        if queryset:
+            return UserStepLikeCommonSerializer(queryset).data
+        return None
+
+
+class UserStepLikeCommonSerializer(ModelSerializer):
+    class Meta:
+        model = UserStepLike
+        fields = ("id",)
 
 
 class TextStepSerializer(ModelSerializer):
@@ -80,8 +103,49 @@ class QuestionStepSerializer(ModelSerializer):
         ).data
 
 
+class SingleChoiceQuestionStepSerializer(ModelSerializer):
+    stepAnswers = SerializerMethodField()
+    userAnswers = SerializerMethodField()
+
+    class Meta:
+        model = SingleChoiceQuestionStep
+        fields = (
+            "id",
+            "text",
+            "stepAnswers",
+            "userAnswers",
+        )
+
+    def get_stepAnswers(self, step):
+        step_answers = step.answer_for_single_choice_question_steps.all()
+        return AnswerForSingleChoiceQuestionStepSerializer(
+            step_answers,
+            context=self.context,
+            many=True,
+        ).data
+
+    def get_userAnswers(self, step):
+        user_answers = step.user_answer_for_single_choice_question_steps.all()
+        return UserAnswerForSingleChoiceQuestionStepSerializer(
+            user_answers,
+            context=self.context,
+            many=True,
+        ).data
+
+
+class AnswerForSingleChoiceQuestionStepSerializer(ModelSerializer):
+    class Meta:
+        model = AnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "answer",
+            "is_correct",
+        )
+
+
 class ProblemStepSerializer(ModelSerializer):
     userAnswers = SerializerMethodField()
+    stepTests = SerializerMethodField()
     cpuTime = IntegerField(source="cpu_time")
 
     class Meta:
@@ -95,13 +159,39 @@ class ProblemStepSerializer(ModelSerializer):
             "cpuTime",
             "memory",
             "userAnswers",
+            "stepTests",
         )
 
-    def get_userAnswers(self, step):
+    def get_userAnswers(self, step: ProblemStep):
         user_answers = step.user_answer_for_problem_steps.all()
         return UserAnswerForProblemStepCommonSerializer(
-            user_answers, context=self.context, many=True
+            user_answers,
+            context=self.context,
+            many=True,
         ).data
+
+    def get_stepTests(self, step: ProblemStep):
+        step_tests = [
+            test
+            for test in step.tests.all()
+            if test.number >= step.first_sample and test.number <= step.last_sample
+        ]
+
+        return TestForProblemStepSerializer(
+            step_tests,
+            many=True,
+        ).data
+
+
+class TestForProblemStepSerializer(ModelSerializer):
+    class Meta:
+        model = TestForProblemStep
+        fields = (
+            "id",
+            "number",
+            "input",
+            "output",
+        )
 
 
 class StepRetrieveSerializer(StepBaseSerializer):
@@ -121,6 +211,8 @@ class StepRetrieveSerializer(StepBaseSerializer):
             return QuestionStepSerializer(step.questionstep).data
         elif step_type == "problemstep":
             return ProblemStepSerializer(step.problemstep).data
+        elif step_type == "singlechoicequestionstep":
+            return SingleChoiceQuestionStepSerializer(step.singlechoicequestionstep).data
 
 
 class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
@@ -128,10 +220,30 @@ class UserAnswerForQuestionStepCommonSerializer(ModelSerializer):
         model = UserAnswerForQuestionStep
         fields = (
             "id",
-            "user",
-            "question",
             "answer",
             "is_correct",
+            "created_at",
+        )
+
+
+class AnswerForSingleChoiceQuestionStepRetrieveSerializer(ModelSerializer):
+    class Meta:
+        model = AnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "answer",
+            "is_correct",
+        )
+
+
+class UserAnswerForSingleChoiceQuestionStepSerializer(ModelSerializer):
+    answer = AnswerForSingleChoiceQuestionStepRetrieveSerializer()
+
+    class Meta:
+        model = UserAnswerForSingleChoiceQuestionStep
+        fields = (
+            "id",
+            "answer",
             "created_at",
         )
 
