@@ -208,7 +208,7 @@ class HomeworkRetrieveAPIView(RetrieveAPIView):
                     )
                     .prefetch_related(
                         Prefetch(
-                            "step__singlechoicequestionstep__answer_for_single_choice_question_steps",
+                            "step__singlechoicequestionstep__answer_for_single_choice_question_steps",  # noqa
                             queryset=AnswerForSingleChoiceQuestionStep.objects.all(),
                         )
                     )

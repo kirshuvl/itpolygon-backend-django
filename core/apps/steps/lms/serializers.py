@@ -6,7 +6,6 @@ from core.apps.steps.models import (
     UserStepEnroll,
     UserStepLike,
     UserStepView,
-    AnswerForSingleChoiceQuestionStep,
 )
 
 from rest_framework.serializers import ModelSerializer

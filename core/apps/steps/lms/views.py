@@ -138,8 +138,6 @@ class UserAnswerForSingleChoiceQuestionStepCreateAPIView(CreateAPIView):
         )
         result.save()
 
-        serializer = self.get_serializer(data=request.data)
-
         enroll = UserStepEnroll.objects.get(user=self.request.user, step=question)
         if answer.is_correct:
             enroll.status = "OK"
