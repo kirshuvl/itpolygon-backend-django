@@ -73,3 +73,11 @@ test:
 .PHONY: piplist
 piplist:
 	${EXEC} ${DJANGO_CONTAINER} pip list
+
+.PNONY: dumpdata
+dumpdata:
+	${EXEC}	${DJANGO_CONTAINER} ${MANAGE_PY} dumpdata --output=all_data_fixture.json
+
+.PNONY: loaddata
+loaddata:
+	${EXEC}	${DJANGO_CONTAINER} ${MANAGE_PY} dumpdata --output=all_data_fixture.json
