@@ -5,7 +5,7 @@ Install the `make` utility:
 ```
 sudo apt install make
 ```
-Change local.env -> .env
+Change local.env -> .env 
 
 Create application in the Docker:
 ```
